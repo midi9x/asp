@@ -1,0 +1,106 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Admin.master.cs" Inherits="Admin_MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="/Admin/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/Admin/css/custom.css" rel="stylesheet"/>
+    <script src="/Admin/js/jquery.js"></script>
+    <script src="/Admin/js/bootstrap.min.js"></script>
+    <!-- tích hợp ckeditor -->
+    <script src="/Admin/ckeditor/ckeditor.js"></script>
+    <!-- thêm font awesome -->
+    <link href="/Admin//font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/Admin/css/style.css" rel="stylesheet"/>
+</head>
+<body>
+    <form id="form1" runat="server" class="form-horizontal" enctype="multipart/form-data">
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Mobile menu</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/Admin">Trang quản trị</a>
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Administrator <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-user"></i> Cá nhân</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-power-off"></i>  Thoát</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li>
+                        <a href=""><i class="fa fa-fw fa-dashboard"></i> Tổng quan</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="fa fa-fw fa-cog"></i> Cấu hình hệ thống</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#sanpham"><i class="fa fa-fw fa-file"></i> Quản lý tin tức <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="sanpham" class="collapse">
+                            <li>
+                                <a href=""><i class="fa fa-fw fa-plus-circle"></i> Thêm mới tin tức</a>
+                            </li>
+                            <li>
+                                <a href=""><i class="fa fa-fw fa-list"></i> Danh sách tin tức</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href=""><i class="fa fa-fw fa-table"></i> Quản lý chuyên mục</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="fa fa-fw fa-user"></i> Quản lý bình luận</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="fa fa-fw fa-reply"></i> Quản lý liên hệ</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="fa fa-fw fa-users"></i> Quản lý thành viên</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="fa fa-fw fa-user"></i> Quản lý người dùng</a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="container-fluid">
+
+
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+     </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    </form>
+</body>
+</html>
+
