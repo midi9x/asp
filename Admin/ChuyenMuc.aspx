@@ -1,23 +1,16 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.master" AutoEventWireup="true" CodeFile="ChuyenMuc.aspx.cs" Inherits="Admin_ChuyenMuc" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <title>Quản lý chuyên mục</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<script>
-        $(document).ready(function () {
-            $('#selectall').click(function (event) { //on click
-                if (this.checked) { //Kiểm tra trạng thái đã chọn checkbox có id là selectall hay chưa
-                    $('.checkbox').each(function () { //lặp qua từng checkbox
-                        this.checked = true; //chọn tất cả checkbox có class là: "checkbox"
-                    });
-                }
-                else {
-                    $('.checkbox').each(function () { //lặp qua từng checkbox
-                        this.checked = false; //deselect all checkboxes with class "checkbox"
-                    });
-                }
-            });
-        });
+<script type="text/javascript">
+        function CheckAllEmp(Checkbox) {
+            var grvBaiviet = document.getElementById("<%=grvChuyenMuc.ClientID %>");
+        for (i = 1; i < grvBaiviet.rows.length; i++) {
+            grvBaiviet.rows[i].cells[5].getElementsByTagName("INPUT")[0].checked = Checkbox.checked;
+        }
+    }
 </script>
 <div class="row">
     <div class="col-lg-12">
@@ -36,15 +29,15 @@
     </div>
 </div>
 
-
+    <p style="text-align:center;color:red;"><asp:Label ID="lblmsg" runat="server" Text=""></asp:Label></p>
 <div class="row">
     <div class="col-lg-4">
         <h2> <span class="action">Thêm</span> Chuyên mục</h2>
-            <input type="hidden" name="id" id="id" />
+            <asp:Label ID="lblId" runat="server" Text=""></asp:Label>
             <div class="form-group">
-                <label for="tenChuyenMuc" class="col-sm-3 control-label">Tiêu đề</label>
+                <label for="tenCM" class="col-sm-3 control-label">Tiêu đề</label>
                 <div class="col-sm-9">
-                    <asp:TextBox ID="tenChuyenMuc" runat="server" CssClass="form-control"></asp:TextBox>
+                    <asp:TextBox ID="tenCM" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
             </div>
             <div class="form-group">
@@ -71,7 +64,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <asp:Button ID="btnThem" CssClass="btn btn-success" runat="server" Text="Button" />
+                    <asp:Button ID="btnThem" CssClass="btn btn-success" runat="server" Text="Cập nhật" />
                     <%--<button name="btnThem" id="btnCapnhat" type="submit" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> <span class="action">Thêm </span></button>--%>
                     <button type="reset" class="btn btn-warning"><i class="glyphicon glyphicon-repeat"></i> Làm mới</button>
                 </div>
@@ -89,12 +82,10 @@
                         $(document).ready(function (e) {
                             $('#Add').click(function (e) {
                                 $('span.action').text('Thêm ');
-                                $('#id').val(0);
-                                $('#tenLoai').val('');
-                                $('#moTa').val('');
-                                $('#tuKhoa').val('');
-                                $('#loaiCha').val(0);
-                                $('#btnCapnhat').attr('name', 'btnThem');
+                                $(<%=tenCM.ClientID%>).val('');
+                                $(<%=moTa.ClientID%>).val('');
+                                $(<%=tuKhoa.ClientID%>).val('');
+                                $(<%=ddCha.ClientID%>).val(0);
                             });
                         });
                     </script>
@@ -103,46 +94,60 @@
 </div>
 
         <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped">
-                <thead>
-                    <tr>
-                        <th>Tên loại</th>
-                        <th>Mô tả</th>
-                        <th>Chuyên mục cha</th>
-                        <th><input type="checkbox" id="selectall" name="selectall" /></th>
-                         <th width="170">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
+            <asp:GridView ID="grvChuyenMuc" DataKeyNames="id" CssClass="table table-bordered table-hover" AutoGenerateColumns="false" AllowPaging="True" PageSize="5" runat="server">
+                <Columns>
+                    <asp:BoundField DataField="id" HeaderText="#" />
+                    <asp:BoundField DataField="tenCM" HeaderText="Tên chuyên mục" />
+                    <asp:BoundField DataField="moTa" HeaderText="Mô tả" />
+                    <asp:BoundField DataField="tuKhoa" HeaderText="Từ khóa" />
+                    <asp:BoundField DataField="idCha" HeaderText="Chuyên mục cha" />
+                    <asp:TemplateField >
+                        <HeaderTemplate>
+                            <asp:CheckBox ID="chkboxSelectAll" runat="server" onClick="CheckAllEmp(this);" />
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <asp:CheckBox ID="chkEmp" runat="server"></asp:CheckBox>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
+                    <%--<asp:HyperLinkField  ControlStyle-CssClass="btn btn-warning"
+                        DataNavigateUrlFields="id" 
+                        DataNavigateUrlFormatString="SuaTin.aspx?id={0}"
+                        Text="<i class='glyphicon glyphicon-pencil'></i> Sửa" 
+                        HeaderText="Sửa"
+                        >
+                    </asp:HyperLinkField>--%>
+
+                    <asp:TemplateField HeaderText="Sửa">
+                        <ItemTemplate>
+                            <asp:LinkButton CssClass="btn btn-warning"
+                                ID="btnSua" 
+                                runat="server" 
+                                CommandArgument='<%# Eval("id") %>' 
+                            ><i class="glyphicon glyphicon-pencil"></i> Sửa
+                            </asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
+                    <asp:TemplateField HeaderText="Xóa">
+                        <ItemTemplate>
+                            <asp:LinkButton CssClass="btn btn-danger"
+                                OnClientClick="return confirm('Bạn có muốn xóa');"
+                                ID="btnXoa" 
+                                runat="server"  
+                                CommandName="Xóa"
+                                OnCommand="Xoa"
+                                CommandArgument='<%# Eval("id") %>' 
+                            ><i class="glyphicon glyphicon-remove"></i> Xóa
+                            </asp:LinkButton>
+                        </ItemTemplate>
                         
-                        <td></td>
-                        <td></td>
-                        <td>
-                        </td>
-                       
-                        <td><input type="checkbox" name="cbitem[]" value="{$item.id}" class="checkbox"/></td>
-                        <td width="170">
-                            <button type="button" id="btnedit{$item.id}" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Sửa </button>
-                             <a href="{$link}&action=xoa&id={$item.id}" onclick="return confirm('Bạn có muốn xóa');" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i> Xóa</a>
-                            
-                        </td>
-                    </tr>
-                   <%-- <script>
-                        $(document).ready(function (e) {
-                            $('#btnedit{$item.id}').click(function (e) {
-                                $('span.action').text('Cập nhật');
-                                $('#id').val('{$item.id}');
-                                $('#tenLoai').val('{$item.tenLoai}');
-                                $('#moTa').val('{$item.moTa}');
-                                $('#tuKhoa').val('{$item.tuKhoa}');
-                                $('#loaiCha').val('{$item.loaiCha}');
-                                $('#btnCapnhat').attr('name', 'btnSua');
-                            });
-                        });
-                    </script>--%>
-                </tbody>
-            </table>
+                    </asp:TemplateField>
+                    
+                </Columns>
+
+            </asp:GridView>
+            
           
         </div>
     </div>

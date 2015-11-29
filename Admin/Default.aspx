@@ -38,17 +38,19 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-comments fa-5x"></i>
+                        <i class="fa fa-reply fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">26</div>
-                        <div>Góp ý mới!</div>
+                        <div class="huge">
+                            <asp:Label ID="lblLienHe" runat="server" Text=""></asp:Label>
+                        </div>
+                        <div>Liên hệ mới!</div>
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a href="LienHe.aspx" title="lien he">
                 <div class="panel-footer">
-                    <span class="pull-left"><a href="">Xem chi tiết</a></span>
+                    <span class="pull-left">Xem chi tiết</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                     <div class="clearfix"></div>
                 </div>
@@ -60,17 +62,17 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-shopping-cart fa-5x"></i>
+                        <i class="fa fa-comments fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">124</div>
-                        <div>Đơn hàng mới!</div>
+                        <div class="huge"><asp:Label ID="lblBinhluan" runat="server" Text=""></asp:Label></div>
+                        <div>Bình luận mới!</div>
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a title="binh luan" href="BinhLuan.aspx">
                 <div class="panel-footer">
-                    <span class="pull-left"><a href="">Xem chi tiết</a></span>
+                    <span class="pull-left">Xem chi tiết</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                     <div class="clearfix"></div>
                 </div>
@@ -82,15 +84,15 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-support fa-5x"></i>
+                        <i class="fa fa-user fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">1300</div>
-                        <div>Lượt truy cập trong ngày</div>
+                        <div class="huge"><asp:Label ID="lblThanhvien" runat="server" Text=""></asp:Label></div>
+                        <div>Thành viên mới</div>
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a title="Thanh Vien" href="ThanhVien.aspx">
                 <div class="panel-footer">
                     <span class="pull-left">Xem chi tiết</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -103,53 +105,48 @@
 <!-- /.row -->
 
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>Lượt truy cập</h3>
-            </div>
-            <div class="panel-body">
-                <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                src="//stats.bizweb.vn/Report/ReportChart/27655?code=ac773556c53c7de7a37886755d4a2f92"
-                                style="border: 0; width: 100%; height: 192px;"></iframe>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-shopping-cart fa-fw"></i> Đơn đặt hàng gần nhất</h3>
+                <h3 class="panel-title"><i class="fa fa-file fa-fw"></i> Bài viết gần đây</h3>
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Ngày đặt</th>
-                                <th>Tên khách hàng</th>
-                                <th>Tổng tiền</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#</td>
-                                <td>Ngày đặt</td>
-                                <td>Tên khách hàng</td>
-                                <td>Tổng tiền</td>
-                            </tr>
-                            <tr>
-                                <td>#</td>
-                                <td>Ngày đặt</td>
-                                <td>Tên khách hàng</td>
-                                <td>Tổng tiền</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
+                    <asp:GridView AutoGenerateColumns="false" ID="dtBaiviet" CssClass="table table-bordered table-hover table-striped" runat="server">
+                        <Columns>
+                            <asp:BoundField DataField="id" HeaderText="#" />
+                            <asp:BoundField DataField="tieuDe" HeaderText="Tiêu đề" />
+                            <asp:BoundField DataField="ngayTao" HeaderText="Ngày tạo" />
+                            <asp:BoundField DataField="luotXem" HeaderText="Lượt xem" />
+                        </Columns>
+                    </asp:GridView>
+                        
+                         
                 </div>
                 <div class="text-right">
-                    <a href="">Xem tất cả đơn đặt hàng <i class="fa fa-arrow-circle-right"></i></a>
+                    <a title="Tin tức" href="TinTuc.aspx">Xem tất cả bài viết <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-comment fa-fw"></i> Bình luận gần đây</h3>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <asp:GridView AutoGenerateColumns="false" ID="dtBinhLuan" CssClass="table table-bordered table-hover table-striped" runat="server">
+                        <Columns>
+                            <asp:BoundField DataField="id" HeaderText="#" />
+                            <asp:BoundField DataField="hoTen" HeaderText="Thành viên" />
+                            <asp:BoundField DataField="tieuDe" HeaderText="Bài viết" />
+                            <asp:BoundField DataField="noiDung" HeaderText="Nội dung" />
+                        </Columns>
+                    </asp:GridView>
+                </div>
+                <div class="text-right">
+                    <a title="Tin tức" href="BinhLuan.aspx">Xem tất bình luận<i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>

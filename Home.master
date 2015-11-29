@@ -1,0 +1,163 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Home.master.cs" Inherits="Home" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link rel="stylesheet" type="text/css" href="~/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="~/css/style.css"/>
+    <script src="Admin/js/jquery.js"></script>
+    <script>
+        function checksearch()
+        {
+            if(document.getElementById("txtTuKhoa").value=='')
+            {
+                alert("Vui lòng nhập từ khóa");
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="container">
+			<div class="login-imelody">
+				<div class="cont-ilogin">
+                    <asp:TextBox ID="txtTuKhoa" runat="server"></asp:TextBox>
+                    <asp:Button ID="btnTim" OnClientClick="return checksearch()" runat="server" Text="Tìm" OnClick="btnTim_Click" />
+                    <div class="btn-res login-form" style="float:left">
+
+                        <%
+                        if(Session["thanhvien"]==null)
+                        {
+                        %>
+                        <a href="Login.aspx" >Đăng nhập | Đăng ký</a>
+                        <%}
+                        else
+                        {
+                        ThanhVien tv = (ThanhVien)Session["thanhvien"];%>
+                        Xin chào, <a href="TaiKhoan.aspx"><%=tv.tenDN %></a> | <a href="Logout.aspx">Thoát</a>
+                        <%} %>
+					</div>
+				</div>
+			</div>
+			<div class="wrapper-header">
+				<div class="header">
+					<a id="logo" href="./">Logo</a>
+					<div class="responsiveSelectContainer">
+						<ul class="nav-menu">
+							<li>
+								<a>Chuyên mục</a>
+							</li>
+							<li>
+								<a>Chuyên mục</a>
+							</li>
+							<li>
+								<a>Chuyên mục</a>
+							</li>
+							<li>
+								<a>Chuyên mục </a>
+							</li>
+						</ul>
+					</div>        
+				</div>
+			</div>
+			<div class="line-h"></div>
+			<!-- Header -->
+            <style>
+                td.item {
+                    padding-right: 10px;
+                }
+                td.item:nth-child(2n+1) {
+                    color: red;
+                }
+            </style>
+			<!-- Content -->
+			<div class="content">
+				<div class="updated">
+					<span><ins>XEM NGAY</ins><p>Bài viết mới</p></span>
+					<div class="simply-scroll simply-scroll-container">
+						<div class="simply-scroll-clip">
+							<div class="simply-scroll-list">
+								<marquee  behavior="scroll" direction="left" scrollamount="3" scrolldelay="60" onmouseover="this.stop()" onmouseout="this.start()=10"> 
+									<ul style="float: left; width: 2050px;" class="simply-scroll-list" >
+                                        <asp:DataList ItemStyle-CssClass="item" runat="server" ID="dtBaiviet" RepeatDirection="Horizontal">
+                                            <ItemTemplate>
+                                                <li>+ <a href="Post.aspx?id=<%#Eval("id") %>" title="<%#Eval("tieuDe") %>"><%#Eval("tieuDe") %></a></li>
+                                            </ItemTemplate>
+                                        </asp:DataList>
+										
+									</ul>
+								</marquee> 
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>    
+				
+                    <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                    <asp:ContentPlaceHolder id="ContentPlaceHolder2" runat="server">
+                    </asp:ContentPlaceHolder>
+            </div><!-- end content-->
+            <div class="right-n fl">
+			        <div class="facebook">
+				        <h1>Tin tức tổng hợp</h1>
+				        <div class="radio-hot">
+					        <ul>
+                                <asp:datalist id="dataTin"   runat="server" RepeatLayout="Flow">
+                                    <ItemTemplate>
+						                <li class="clearfix">
+							                <a title="<%# Eval("tieuDe")%>" href="Post.aspx?id=<%# Eval("id")%>">
+								                <img src="<%# Eval("hinhAnh")%>" alt="<%# Eval("tieuDe")%>" width="90" height="68"/> 
+							                </a>
+							                <a title="<%# Eval("tieuDe")%>" href="Post.aspx?id=<%# Eval("id")%>">
+                                                <%# Eval("tieuDe")%>
+							                </a>
+							                <p> 
+                                                <%# Eval("moTa")%>
+							                </p>
+						                </li>
+                                    </ItemTemplate>
+                                </asp:datalist>
+					        </ul>
+				        </div>
+			        </div>
+			        <div style="position:relative;" id="sticky">
+				        <div class="radio-hot">
+					        <h1>TIN TỨC XEM NHIỀU </h1>
+					        <ul>
+                                <asp:datalist id="dataXemnhieu"   runat="server" RepeatLayout="Flow">
+                                    <ItemTemplate>
+						                <li class="clearfix">
+							                <a title="<%# Eval("tieuDe")%>" href="Post.aspx?id=<%# Eval("id")%>">
+								                <img src="<%# Eval("hinhAnh")%>" width="90" height="68"/>
+                                                <%# Eval("tieuDe")%>
+							                </a>
+								           <p> <%# Eval("moTa")%></p>
+						                </li>
+                                    </ItemTemplate>
+                                </asp:datalist>
+					        </ul>
+				        </div>
+			        </div>
+	        </div><!--end right-->
+	        <div class="clear"></div>
+	</div><!-- end container-->
+	<div class="wrapper-ft">
+		<div class="footer">
+			<div class="foot_right fr">
+				<p><a rel="nofollow" href=""><strong>Ten trang web</strong></a></p>
+				<p>Copyright</p>
+			</div>
+			<div class="foot_left">
+				<h3>Tin tuc online</h3>
+				<p>Email: ttol@gmail.com</p>
+			</div>
+		</div>
+	</div>
+            </form>
+	</body>
+</html>
