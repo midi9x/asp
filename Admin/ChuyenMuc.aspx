@@ -33,38 +33,46 @@
 <div class="row">
     <div class="col-lg-4">
         <h2> <span class="action">Thêm</span> Chuyên mục</h2>
+        <div style="padding-top: 15px;"></div>
             <asp:Label ID="lblId" runat="server" Text=""></asp:Label>
             <div class="form-group">
                 <label for="tenCM" class="col-sm-3 control-label">Tiêu đề</label>
                 <div class="col-sm-9">
                     <asp:TextBox ID="tenCM" runat="server" CssClass="form-control"></asp:TextBox>
+                    <asp:RequiredFieldValidator CssClass="red" ID="rqTieude" runat="server" ControlToValidate="tenCM" ErrorMessage="Vui lòng nhập tiêu đề"></asp:RequiredFieldValidator>
+  
                 </div>
             </div>
             <div class="form-group">
                 <label for="moTa" class="col-sm-3 control-label">Mô tả</label>
                 <div class="col-sm-9">
-                    <asp:TextBox ID="moTa" runat="server" CssClass="form-control"></asp:TextBox>
+                    <asp:TextBox ID="moTa"  runat="server" TextMode="multiline" Rows="6" CssClass="form-control"></asp:TextBox>
+                    <asp:RequiredFieldValidator CssClass="red" ID="rqMota" runat="server" ControlToValidate="moTa" ErrorMessage="Vui lòng nhập mô tả"></asp:RequiredFieldValidator>
+  
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="tuKhoa" class="col-sm-3 control-label">Từ khóa</label>
-                <div class="col-sm-9">
-                    <asp:TextBox ID="tuKhoa" runat="server" CssClass="form-control"></asp:TextBox>
+                <div class="col-sm-9"> 
+                    <asp:TextBox ID="tuKhoa" runat="server" TextMode="multiline" Rows="6"  CssClass="form-control"></asp:TextBox>
+                <asp:RequiredFieldValidator CssClass="red" ID="rqTukhoa" runat="server" ControlToValidate="tuKhoa" ErrorMessage="Vui lòng nhập từ khóa"></asp:RequiredFieldValidator>
+  
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="loaiCha" class="col-sm-3 control-label">Loại cha</label>
                 <div class="col-sm-9">
-                    <asp:DropDownList ID="ddCha" runat="server"  CssClass="form-control"></asp:DropDownList>
+                    <asp:DropDownList ID="ddCha" runat="server"  CssClass="form-control">
+                    </asp:DropDownList>
 
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <asp:Button ID="btnThem" CssClass="btn btn-success" runat="server" Text="Cập nhật" />
+                    <asp:Button ID="btnThem" CssClass="btn btn-success" runat="server" Text="Cập nhật" OnClick="btnThem_Click" />
                     <%--<button name="btnThem" id="btnCapnhat" type="submit" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> <span class="action">Thêm </span></button>--%>
                     <button type="reset" class="btn btn-warning"><i class="glyphicon glyphicon-repeat"></i> Làm mới</button>
                 </div>
@@ -89,18 +97,18 @@
                             });
                         });
                     </script>
-                    <button name="btnXoachon" onclick="return confirm('Bạn có muốn xóa');" type="submit" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i> Xóa mục chọn</button>
-    </div>
+                     <asp:LinkButton ID="btnXoaN" OnClientClick="return confirm('Bạn có muốn xóa không?');" CssClass="btn btn-danger" runat="server" OnClick="btnXoaN_Click"><i class="glyphicon glyphicon-remove"></i> Xóa mục chọn </asp:LinkButton>
+             </div>
 </div>
 
         <div class="table-responsive">
-            <asp:GridView ID="grvChuyenMuc" DataKeyNames="id" CssClass="table table-bordered table-hover" AutoGenerateColumns="false" AllowPaging="True" PageSize="5" runat="server">
+            <asp:GridView ID="grvChuyenMuc" DataKeyNames="id" CssClass="table table-bordered table-hover" AutoGenerateColumns="false" AllowPaging="True" PageSize="7" runat="server" OnPageIndexChanging="grvChuyenMuc_PageIndexChanging">
                 <Columns>
                     <asp:BoundField DataField="id" HeaderText="#" />
-                    <asp:BoundField DataField="tenCM" HeaderText="Tên chuyên mục" />
-                    <asp:BoundField DataField="moTa" HeaderText="Mô tả" />
-                    <asp:BoundField DataField="tuKhoa" HeaderText="Từ khóa" />
-                    <asp:BoundField DataField="idCha" HeaderText="Chuyên mục cha" />
+                    <asp:BoundField DataField="tenCM" ItemStyle-Width="100" HeaderText="Tên chuyên mục" />
+                    <asp:BoundField DataField="moTa" ItemStyle-Width="150" ItemStyle-CssClass="crop" HeaderText="Mô tả" />
+                    <asp:BoundField DataField="tuKhoa" ItemStyle-Width="150" ItemStyle-CssClass="crop" HeaderText="Từ khóa" />
+                    <asp:BoundField DataField="idCha" ItemStyle-Width="20" HeaderText="Chuyên mục cha" />
                     <asp:TemplateField >
                         <HeaderTemplate>
                             <asp:CheckBox ID="chkboxSelectAll" runat="server" onClick="CheckAllEmp(this);" />
@@ -118,17 +126,15 @@
                         >
                     </asp:HyperLinkField>--%>
 
-                    <asp:TemplateField HeaderText="Sửa">
-                        <ItemTemplate>
-                            <asp:LinkButton CssClass="btn btn-warning"
-                                ID="btnSua" 
-                                runat="server" 
-                                CommandArgument='<%# Eval("id") %>' 
-                            ><i class="glyphicon glyphicon-pencil"></i> Sửa
-                            </asp:LinkButton>
-                        </ItemTemplate>
-                    </asp:TemplateField>
+                    
+                    <asp:HyperLinkField  ControlStyle-CssClass="btn btn-warning"
+                        DataNavigateUrlFields="id" 
+                        DataNavigateUrlFormatString="ChuyenMuc.aspx?id={0}&action=sua"
+                        Text="<i class='glyphicon glyphicon-pencil'></i> Sửa" 
+                        HeaderText="Sửa"
+                        >
 
+                    </asp:HyperLinkField>
                     <asp:TemplateField HeaderText="Xóa">
                         <ItemTemplate>
                             <asp:LinkButton CssClass="btn btn-danger"
@@ -145,7 +151,7 @@
                     </asp:TemplateField>
                     
                 </Columns>
-
+<PagerStyle CssClass="pagination-ys" />
             </asp:GridView>
             
           

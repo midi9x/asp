@@ -49,4 +49,26 @@ public partial class Login : System.Web.UI.Page
             Response.Redirect("/");
         }
     }
+    protected void btnDangKy_Click(object sender, EventArgs e)
+    {
+        ThanhVien tv = new ThanhVien();
+        tv.tenDN = txtTenDN.Text;
+        string matKhau = txtMk.Text;
+        tv.matKhau = GetMD5(matKhau);
+        tv.email = txtEmail.Text;
+        tv.hoTen = txtHoten.Text;
+        tv.gioiTinh = Convert.ToInt32(ddGioitinh.Text);
+        tv.ngayTao = Convert.ToDateTime(DateTime.Now);
+        if (txtNgaySinh.Text!=null)tv.ngaySinh = Convert.ToDateTime(txtNgaySinh.Text);
+        if (txtDiaChi.Text != null) tv.diaChi = txtDiaChi.Text;
+        tv.trangThai = 1;
+        if (tv.gioiTinh == 1) tv.anhDaiDien = "/Upload/Avatar/boy.jpg";
+        else tv.anhDaiDien = "/Upload/Avatar/girl.jpg";
+        data.ThemThanhVien(tv);
+        Session["thanhvien"] = tv;
+        Response.Redirect("/");
+        
+        
+    }
+    
 }

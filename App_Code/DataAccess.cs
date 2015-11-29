@@ -77,14 +77,7 @@ public class DataAccess
         con.Close();
     }
 
-    public void XoaChuyenMuc(int id)
-    {
-        con.Open();
-        SqlCommand cmd = new SqlCommand("DELETE FROM tblChuyenMuc WHERE id = @id", con);
-        cmd.Parameters.AddWithValue("@id", id);
-        cmd.ExecuteNonQuery();
-        con.Close();
-    }
+    
     public BaiViet GetABaiViet(int id)
     {
         con.Open();
@@ -118,9 +111,38 @@ public class DataAccess
         con.Close();
         return bv;
     }
+    //chuyen muc
+    public ChuyenMuc GetAChuyenMuc(int id)
+    {
+        con.Open();
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandText = "SELECT * FROM tblChuyenMuc WHERE id=@id";
+        cmd.Connection = con;
+        cmd.Parameters.AddWithValue("@id", id);
+        SqlDataReader rd = cmd.ExecuteReader();
+        ChuyenMuc cm = new ChuyenMuc();
+        if (rd.Read())
+        {
+            cm.id = Convert.ToInt32(rd["id"]);
+            cm.tenCM = Convert.ToString(rd["tenCM"]);
+            cm.moTa = Convert.ToString(rd["moTa"]);
+            cm.tuKhoa = Convert.ToString(rd["tuKhoa"]);
+            cm.idCha = Convert.ToInt32(rd["idCha"]);
+        }
+        con.Close();
+        return cm;
+    }
+    public void XoaChuyenMuc(int id)
+    {
+        con.Open();
+        SqlCommand cmd = new SqlCommand("DELETE FROM tblChuyenMuc WHERE id = @id", con);
+        cmd.Parameters.AddWithValue("@id", id);
+        cmd.ExecuteNonQuery();
+        con.Close();
+    }
     public DataTable GetAllChuyenMuc()
     {
-        SqlDataAdapter ad = new SqlDataAdapter("SELECT * FROM tblChuyenMuc", con);
+        SqlDataAdapter ad = new SqlDataAdapter("SELECT * FROM tblChuyenMuc order by id DESC", con);
         DataTable dt = new DataTable();
         ad.Fill(dt);
         return dt;
@@ -141,6 +163,46 @@ public class DataAccess
         return tenCM;
       
     }
+    public void ThemChuyenMuc(ChuyenMuc cm)
+    {
+        string sql = "INSERT INTO tblChuyenMuc(tenCM, moTa, tuKhoa,idCha) VALUES (@tenCM, @moTa, @tuKhoa,@idCha)";
+        con.Open();
+        SqlCommand cmd = new SqlCommand(sql, con);
+        cmd.Parameters.AddWithValue("@idCha", cm.idCha);
+
+        cmd.Parameters.Add("@tenCM", SqlDbType.NText);
+        cmd.Parameters["@tenCM"].Value = cm.tenCM;
+
+        cmd.Parameters.Add("@moTa", SqlDbType.NText);
+        cmd.Parameters["@moTa"].Value = cm.moTa;
+
+        cmd.Parameters.Add("@tuKhoa", SqlDbType.NText);
+        cmd.Parameters["@tuKhoa"].Value = cm.tuKhoa;
+
+        cmd.ExecuteNonQuery();
+        con.Close();
+    }
+    public void SuaChuyenMuc(ChuyenMuc cm)
+    {
+        string sql = "Update tblChuyenMuc set tenCM=@tenCM, moTa=@moTa, tuKhoa=@tuKhoa,idCha=@idCha WHERE id=@id" ;
+        con.Open();
+        SqlCommand cmd = new SqlCommand(sql, con);
+        cmd.Parameters.AddWithValue("@id", cm.id);
+        cmd.Parameters.AddWithValue("@idCha", cm.idCha);
+
+        cmd.Parameters.Add("@tenCM", SqlDbType.NText);
+        cmd.Parameters["@tenCM"].Value = cm.tenCM;
+
+        cmd.Parameters.Add("@moTa", SqlDbType.NText);
+        cmd.Parameters["@moTa"].Value = cm.moTa;
+
+        cmd.Parameters.Add("@tuKhoa", SqlDbType.NText);
+        cmd.Parameters["@tuKhoa"].Value = cm.tuKhoa;
+
+        cmd.ExecuteNonQuery();
+        con.Close();
+    }
+    //----
     public void ThemBaiViet(BaiViet bv)
     {
         string sql = "INSERT INTO tblBaiViet(id_cm, id_nd, tieuDe,noiDung, moTa, tuKhoa,hinhAnh,ngayTao) VALUES(@id_cm, @id_nd, @tieuDe,@noiDung, @moTa, @tuKhoa,@hinhAnh,@ngayTao)";
@@ -262,6 +324,27 @@ public class DataAccess
         return nd;
     }
     //thành viên
+    public void ThemThanhVien(ThanhVien tv)
+    {
+        string sql = @"INSERT INTO tblThanhVien(tenDN,matKhau,hoTen,email,ngaySinh,gioiTinh,diaChi,ngayTao,anhDaiDien,trangThai) 
+                                                VALUES(@tenDN,@matKhau,@hoTen,@email,@ngaySinh,@gioiTinh,@diaChi,@ngayTao,@anhDaiDien,@trangThai)";
+        con.Open();
+        SqlCommand cmd = new SqlCommand(sql, con);
+        cmd.Parameters.AddWithValue("tenDN", tv.tenDN);
+        cmd.Parameters.AddWithValue("@matKhau", tv.matKhau);
+        cmd.Parameters.AddWithValue("@email", tv.email);
+        cmd.Parameters.AddWithValue("@ngaySinh", tv.ngaySinh);
+        cmd.Parameters.AddWithValue("@gioiTinh", tv.gioiTinh);
+        cmd.Parameters.AddWithValue("@anhDaiDien", tv.anhDaiDien);
+        cmd.Parameters.AddWithValue("@trangThai", tv.trangThai);
+        cmd.Parameters.AddWithValue("@ngayTao", tv.ngayTao);
+        cmd.Parameters.Add("@hoTen", SqlDbType.NText);
+        cmd.Parameters["@hoTen"].Value = tv.hoTen;
+        cmd.Parameters.Add("@diaChi", SqlDbType.NText);
+        cmd.Parameters["@diaChi"].Value = tv.diaChi;
+        cmd.ExecuteNonQuery();
+        con.Close();
+    }
     public ThanhVien GetAThanhVienId(int id)
     {
         con.Open();
@@ -323,6 +406,43 @@ public class DataAccess
         con.Close();
         return tv;
     }
+    public void SuaThanhVien(ThanhVien tv)
+    {
+        string sql = @"UPDATE tblThanhVien  set hoTen=@hoTen,
+                                                email=@email,
+                                                ngaySinh=@ngaySinh, 
+                                                gioiTinh=@gioiTinh,
+                                                diaChi=@diaChi,
+                                                anhDaiDien=@anhDaiDien
+                                                WHERE id=@id";
+        con.Open();
+        SqlCommand cmd = new SqlCommand(sql, con);
+        cmd.Parameters.AddWithValue("@id", tv.id);
+        //cmd.Parameters.AddWithValue("@tenDN", tv.tenDN);
+        //cmd.Parameters.AddWithValue("@matKhau", tv.matKhau);
+        cmd.Parameters.AddWithValue("@email", tv.email);
+        cmd.Parameters.AddWithValue("@ngaySinh", tv.ngaySinh);
+        cmd.Parameters.AddWithValue("@gioiTinh", tv.gioiTinh);
+        cmd.Parameters.AddWithValue("@anhDaiDien", tv.anhDaiDien);
+        cmd.Parameters.Add("@hoTen", SqlDbType.NText);
+        cmd.Parameters["@hoTen"].Value = tv.hoTen;
+
+        cmd.Parameters.Add("@diaChi", SqlDbType.NText);
+        cmd.Parameters["@diaChi"].Value = tv.diaChi;
+
+        cmd.ExecuteNonQuery();
+        con.Close();
+    }
+    public void DoiMkThanhVien(ThanhVien tv)
+    {
+        string sql = @"UPDATE tblThanhVien  set matKhau = @matKhau WHERE id=@id";
+        con.Open();
+        SqlCommand cmd = new SqlCommand(sql, con);
+        cmd.Parameters.AddWithValue("@id", tv.id);
+        cmd.Parameters.AddWithValue("@matKhau", tv.matKhau);
+        cmd.ExecuteNonQuery();
+        con.Close();
+    }
 
     //binh luan
     public DataTable GetAllBinhLuan()
@@ -332,12 +452,25 @@ public class DataAccess
                                                     ON  tblBinhLuan.id_BV = tblBaiViet.id
                                                     INNER JOIN tblThanhVien 
                                                     ON tblBinhLuan.id_TV = tblThanhVien.id
+                                                    order by id desc
         ", con);
         DataTable dt = new DataTable();
         ad.Fill(dt);
         return dt;
     }
-
+    public DataTable GetAllBinhLuanLimit(int limit)
+    {
+        SqlDataAdapter ad = new SqlDataAdapter(@"SELECT TOP "+limit+ @" tblBinhLuan.*, tieuDe,hoTen,tenDN
+                                                    FROM tblBaiViet INNER JOIN  tblBinhLuan
+                                                    ON  tblBinhLuan.id_BV = tblBaiViet.id
+                                                    INNER JOIN tblThanhVien 
+                                                    ON tblBinhLuan.id_TV = tblThanhVien.id
+                                                    order by id desc 
+        ", con);
+        DataTable dt = new DataTable();
+        ad.Fill(dt);
+        return dt;
+    }
     public DataTable GetBinhLuanBV(int id)
     {
         SqlDataAdapter ad = new SqlDataAdapter(@"SELECT tblBinhLuan.*,tieuDe,hoTen,tenDN,anhDaiDien
@@ -365,6 +498,52 @@ public class DataAccess
         con.Close();
        
         
+    }
+    public void XoaBinhLuan(int id)
+    {
+        string sql = "DELETE FROM tblBinhLuan WHERE id = @id";
+        con.Open();
+        SqlCommand cmd = new SqlCommand(sql, con);
+        cmd.Parameters.AddWithValue("@id", id);
+        cmd.ExecuteNonQuery();
+        con.Close();
+        
+    }
+    // phan hoi
+    public DataTable GetAllLienHe()
+    {
+        SqlDataAdapter ad = new SqlDataAdapter(@"SELECT tblPhanHoi.*,tenDN
+                                                    FROM tblPhanHoi INNER JOIN  tblThanhVien 
+                                                    ON tblPhanHoi.id_TV = tblThanhVien.id
+                                                    order by id desc
+        ", con);
+        DataTable dt = new DataTable();
+        ad.Fill(dt);
+        return dt;
+    }
+    public void ThemLienHe(PhanHoi ph)
+    {
+        string sql = "INSERT INTO tblPhanHoi(id_TV, noiDung,ngayGui) VALUES(@id_TV, @noiDung,@ngayGui)";
+        con.Open();
+        SqlCommand cmd = new SqlCommand(sql, con);
+        cmd.Parameters.AddWithValue("@id_TV", ph.id_TV);
+        cmd.Parameters.AddWithValue("@ngayGui", ph.ngayGui);
+        cmd.Parameters.Add("@noiDung", SqlDbType.NText);
+        cmd.Parameters["@noiDung"].Value = ph.noiDung;
+        cmd.ExecuteNonQuery();
+        con.Close();
+
+
+    }
+    public void XoaLienHe(int id)
+    {
+        string sql = "DELETE FROM tblPhanHoi WHERE id = @id";
+        con.Open();
+        SqlCommand cmd = new SqlCommand(sql, con);
+        cmd.Parameters.AddWithValue("@id", id);
+        cmd.ExecuteNonQuery();
+        con.Close();
+
     }
 	public DataAccess()
 	{

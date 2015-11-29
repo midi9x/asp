@@ -13,7 +13,7 @@ public partial class Admin_Default : System.Web.UI.Page
         Page.Title = "Trang quản trị";
         dtBaiviet.DataSource = data.GetAllBaiVietLimitOffSet(5, 0);
         dtBaiviet.DataBind();
-        dtBinhLuan.DataSource = data.GetAllBinhLuan() ;
+        dtBinhLuan.DataSource = data.GetAllBinhLuanLimit(4);
         dtBinhLuan.DataBind();
         lblBinhluan.Text = "21";
         lblLienHe.Text = "42";

@@ -94,3 +94,10 @@
     ul.nav.navbar-nav.side-nav a {
         color: #E2E1E1;
     }
+   td.crop {
+        text-overflow: ellipsis;
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+   

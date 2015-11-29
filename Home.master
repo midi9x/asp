@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="~/css/css.css"/>
 	<link rel="stylesheet" type="text/css" href="~/css/style.css"/>
     <script src="Admin/js/jquery.js"></script>
+    <script src="Admin/js/jquery-ui.min.js"></script>
+    <link href="Admin/css/jquery-ui.min.css" rel="stylesheet" />
     <script>
         function checksearch()
         {
@@ -24,11 +26,13 @@
     <form id="form1" runat="server">
         <div class="container">
 			<div class="login-imelody">
-				<div class="cont-ilogin">
-                    <asp:TextBox ID="txtTuKhoa" runat="server"></asp:TextBox>
-                    <asp:Button ID="btnTim" OnClientClick="return checksearch()" runat="server" Text="Tìm" OnClick="btnTim_Click" />
-                    <div class="btn-res login-form" style="float:left">
-
+				<div class="cont-ilogin ">
+                        <asp:TextBox CssClass="tftextinput" ID="txtTuKhoa" runat="server" placeholder="Nhập từ khóa cần tìm ..."></asp:TextBox>
+                        <asp:Button CssClass="tfbutton" ID="btnTim" OnClientClick="return checksearch()" runat="server" Text="Tìm" OnClick="btnTim_Click" />
+                    <div class="btn-res login-form" style="float:left; padding-top: 2px;">
+                         <a href="LienHe.aspx">Trang chủ</a> |  <a href="#">Giới thiệu</a> | <a href="LienHe.aspx">Liên hệ</a>
+                     </div>
+                    <div class="btn-res login-form" style="float:left; padding-top: 2px;padding-left: 200px;">
                         <%
                         if(Session["thanhvien"]==null)
                         {
@@ -41,6 +45,7 @@
                         Xin chào, <a href="TaiKhoan.aspx"><%=tv.tenDN %></a> | <a href="Logout.aspx">Thoát</a>
                         <%} %>
 					</div>
+                     
 				</div>
 			</div>
 			<div class="wrapper-header">
@@ -49,21 +54,26 @@
 					<div class="responsiveSelectContainer">
 						<ul class="nav-menu">
 							<li>
-								<a>Chuyên mục</a>
+								<a>Tin tức trong ngày</a>
+							</li>
+                           
+							<li>
+								<a>Thể thao</a>
 							</li>
 							<li>
-								<a>Chuyên mục</a>
+								<a>Sức khỏe</a>
 							</li>
 							<li>
-								<a>Chuyên mục</a>
+								<a>Xã hội </a>
 							</li>
-							<li>
-								<a>Chuyên mục </a>
+                             <li>
+								<a>Thế giới</a>
 							</li>
 						</ul>
 					</div>        
 				</div>
 			</div>
+            
 			<div class="line-h"></div>
 			<!-- Header -->
             <style>
@@ -149,12 +159,15 @@
 	<div class="wrapper-ft">
 		<div class="footer">
 			<div class="foot_right fr">
-				<p><a rel="nofollow" href=""><strong>Ten trang web</strong></a></p>
-				<p>Copyright</p>
+				<p><strong>Đề tài: Quản lý tạp chí online</strong></p>
+				<p>Copyright 2015 - Nhóm 8 - HTTT </p>
+                <p>Đại Học Công Nghiệp Hà Nội</p>
 			</div>
 			<div class="foot_left">
-				<h3>Tin tuc online</h3>
-				<p>Email: ttol@gmail.com</p>
+				<h3>Tạp chí onlione</h3>
+                <p>Địa chỉ: Hanoi, VietNam</p>
+                <p>Phone: 1900.9999</p>
+				<p>Email: tcol@gmail.com</p>
 			</div>
 		</div>
 	</div>

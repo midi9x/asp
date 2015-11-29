@@ -50,10 +50,10 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
-                        <a href=""><i class="fa fa-fw fa-dashboard"></i> Tổng quan</a>
+                        <a href="/Admin"><i class="fa fa-fw fa-dashboard"></i> Tổng quan</a>
                     </li>
                     <li>
-                        <a href=""><i class="fa fa-fw fa-cog"></i> Cấu hình hệ thống</a>
+                        <a href="CauHinh.aspx"><i class="fa fa-fw fa-cog"></i> Cấu hình hệ thống</a>
                     </li>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#sanpham"><i class="fa fa-fw fa-file"></i> Quản lý tin tức <i class="fa fa-fw fa-caret-down"></i></a>
@@ -70,16 +70,16 @@
                         <a href="ChuyenMuc.aspx"><i class="fa fa-fw fa-table"></i> Quản lý chuyên mục</a>
                     </li>
                     <li>
-                        <a href=""><i class="fa fa-fw fa-user"></i> Quản lý bình luận</a>
+                        <a href="BinhLuan.aspx"><i class="fa fa-fw fa-user"></i> Quản lý bình luận</a>
                     </li>
                     <li>
-                        <a href=""><i class="fa fa-fw fa-reply"></i> Quản lý liên hệ</a>
+                        <a href="LienHe.aspx"><i class="fa fa-fw fa-reply"></i> Quản lý liên hệ</a>
                     </li>
                     <li>
-                        <a href=""><i class="fa fa-fw fa-users"></i> Quản lý thành viên</a>
+                        <a href="ThanhVien.aspx"><i class="fa fa-fw fa-users"></i> Quản lý thành viên</a>
                     </li>
                     <li>
-                        <a href=""><i class="fa fa-fw fa-user"></i> Quản lý người dùng</a>
+                        <a href="NguoiDung.aspx"><i class="fa fa-fw fa-user"></i> Quản lý người dùng</a>
                     </li>
                     
                 </ul>
