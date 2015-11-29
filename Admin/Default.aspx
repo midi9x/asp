@@ -9,7 +9,7 @@
         <h3>
             <ol class="breadcrumb">
                 <li>
-                    <i class="fa fa-home"></i>  <a href="">Home</a>
+                    <i class="fa fa-home"></i>  <a href="/Admin">Home</a>
                 </li>
                 <li class="active">
                     <i class="fa fa-dashboard"></i> Tổng quan
