@@ -25,7 +25,7 @@
         <div class="alert alert-info alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <i class="fa fa-info-circle"></i>   
-            Chào mừng bạn đến với trang quản trị. Trước tiên hãy <strong><u><a href="">thiết lập cấu hình</u></a></strong> cho website.
+            Chào mừng bạn đến với trang quản trị. Trước tiên hãy <strong><u><a href="CauHinh.aspx">thiết lập cấu hình</u></a></strong> cho website.
             
         </div>
     </div>

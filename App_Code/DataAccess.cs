@@ -265,12 +265,22 @@ public class DataAccess
         cmd.ExecuteNonQuery();
         con.Close();
     }
+    //nguoidung
     public DataTable GetAllNguoiDung()
     {
-        SqlDataAdapter ad = new SqlDataAdapter("SELECT * FROM tblNguoiDung", con);
+        SqlDataAdapter ad = new SqlDataAdapter("SELECT * FROM tblNguoiDung order by id desc", con);
         DataTable dt = new DataTable();
         ad.Fill(dt);
         return dt;
+    }
+    public void XoaNguoiDung(int id)
+    {
+        string sql = @"Delete from tblNguoiDung  WHERE id=@id";
+        con.Open();
+        SqlCommand cmd = new SqlCommand(sql, con);
+        cmd.Parameters.AddWithValue("@id", id);
+        cmd.ExecuteNonQuery();
+        con.Close();
     }
     public NguoiDung GetANguoiDungId(int id)
     {
@@ -323,6 +333,7 @@ public class DataAccess
         con.Close();
         return nd;
     }
+
     //thành viên
     public void ThemThanhVien(ThanhVien tv)
     {
@@ -443,7 +454,22 @@ public class DataAccess
         cmd.ExecuteNonQuery();
         con.Close();
     }
-
+    public void XoaThanhVien(int id)
+    {
+        string sql = @"Delete from tblThanhVien  WHERE id=@id";
+        con.Open();
+        SqlCommand cmd = new SqlCommand(sql, con);
+        cmd.Parameters.AddWithValue("@id", id);
+        cmd.ExecuteNonQuery();
+        con.Close();
+    }
+    public DataTable GetAllThanhVien()
+    {
+        SqlDataAdapter ad = new SqlDataAdapter(@"SELECT * from tblThanhVien order by id desc", con);
+        DataTable dt = new DataTable();
+        ad.Fill(dt);
+        return dt;
+    }
     //binh luan
     public DataTable GetAllBinhLuan()
     {
@@ -544,6 +570,46 @@ public class DataAccess
         cmd.ExecuteNonQuery();
         con.Close();
 
+
+    }
+    public void SuaCauHinh(CauHinh ch)
+    {
+        string sql = @"UPDATE tblCauHinh  set   tieuDe=@tieuDe,
+                                                moTa=@moTa,
+                                                tuKhoa=@tuKhoa, 
+                                                logo=@logo where 1 = 1";
+        con.Open();
+        SqlCommand cmd = new SqlCommand(sql, con);
+        cmd.Parameters.Add("@tieuDe", SqlDbType.NText);
+        cmd.Parameters["@tieuDe"].Value = ch.tieuDe;
+
+        cmd.Parameters.AddWithValue("@logo", ch.logo);
+
+        cmd.Parameters.Add("@moTa", SqlDbType.NText);
+        cmd.Parameters["@moTa"].Value = ch.moTa;
+
+        cmd.Parameters.Add("@tuKhoa", SqlDbType.NText);
+        cmd.Parameters["@tuKhoa"].Value = ch.tuKhoa;
+        cmd.ExecuteNonQuery();
+        con.Close();
+    }
+    public CauHinh GetCauHinh()
+    {
+        con.Open();
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandText = "SELECT * From tblCauHinh";
+        cmd.Connection = con;
+        SqlDataReader rd = cmd.ExecuteReader();
+        CauHinh ch = new CauHinh();
+        if (rd.Read())
+        {
+            ch.tieuDe = Convert.ToString(rd["tieuDe"]);
+            ch.moTa = Convert.ToString(rd["moTa"]);
+            ch.tuKhoa = Convert.ToString(rd["tuKhoa"]);
+            ch.logo = Convert.ToString(rd["logo"]);
+        }
+        con.Close();
+        return ch;
     }
 	public DataAccess()
 	{

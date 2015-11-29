@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.master" AutoEventWireup="true" CodeFile="CauHinh.aspx.cs" Inherits="Admin_CauHinh" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <title>Quản lý cấu hình</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div class="row">
@@ -28,14 +29,14 @@
   <div class="form-group">
     <label for="" class="col-sm-2 control-label">Mô tả</label>
     <div class="col-sm-10">
-        <asp:TextBox TextMode="MultiLine" ID="btnMota" Rows="4" CssClass="form-control" runat="server"></asp:TextBox>
+        <asp:TextBox TextMode="MultiLine" ID="txtMota" Rows="4" CssClass="form-control" runat="server"></asp:TextBox>
     </div>
   </div>
 
   <div class="form-group">
     <label for="" class="col-sm-2 control-label">Từ khóa</label>
     <div class="col-sm-10">
-      <asp:TextBox TextMode="MultiLine" ID="btnTukhoa" Rows="4" CssClass="form-control" runat="server"></asp:TextBox>
+      <asp:TextBox TextMode="MultiLine" ID="txtTuKhoa" Rows="4" CssClass="form-control" runat="server"></asp:TextBox>
     </div>
   </div>
 
@@ -44,7 +45,8 @@
     <div class="col-sm-10">
         <asp:FileUpload ID="imgAnh" CssClass="form-control"  runat="server" />
       <p class="form-control-static">
-          <img width="160"  class="img-thumbnail" alt="logo" src="http://vieclam.24h.com.vn/upload/files_cua_nguoi_dung/logo/2014/02/24/1393231114_card_2.jpg"/>
+          <asp:ImageButton ID="logo" runat="server" />
+
       </p>
     </div>
   </div>
@@ -52,7 +54,7 @@
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button t type="submit" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> Hoàn thành</button>
+        <asp:LinkButton ID="btnCapNhat" CssClass="btn btn-success" runat="server" OnClick="btnCapNhat_Click"><i class="glyphicon glyphicon-ok"></i> Câp nhật</asp:LinkButton>
       <button type="reset" class="btn btn-warning"><i class="glyphicon glyphicon-repeat"></i> Làm mới</button>
     </div>
   </div>
