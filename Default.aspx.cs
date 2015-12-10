@@ -11,13 +11,15 @@ public partial class _Default : System.Web.UI.Page
     DataAccess data = new DataAccess();
     protected void Page_Load(object sender, EventArgs e)
     {
-        Page.Title = "Tin tuc online | tin tuc 24h | tin moi nhat";
         
         if (!IsPostBack)
         {
-            Page.Title = "Tin tuc online | tin tuc 24h | tin moi nhat";
-            Page.MetaDescription = "";
-            Page.MetaKeywords = "";
+            CauHinh ch = data.GetCauHinh();
+            Page.Title = ch.tieuDe;
+            Page.MetaDescription = ch.moTa;
+            Page.MetaKeywords = ch.tuKhoa;
+            //
+
             Datalist1.DataSource = data.GetAllBaiVietLimitOffSet(1,0);
             Datalist1.DataBind();
             Datalist2.DataSource = data.GetAllBaiVietLimitOffSet(6,1);

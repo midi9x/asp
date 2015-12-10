@@ -1,21 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.master" AutoEventWireup="true" CodeFile="TinTuc.aspx.cs" Inherits="Admin_TinTuc" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.master" AutoEventWireup="true" CodeFile="KiemDuyet.aspx.cs" Inherits="Admin_KiemDuyet" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-    <title>Quản lý tin tức</title>
+    <title>Kiểm duyệt tin tức</title>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
-<script>
-$(document).ready(function (e) {
-    $("#ContentPlaceHolder1_btnSearch").click(function (e) {
-        var value = $("#ContentPlaceHolder1_txtKey").val();
-        if (value == "") {
-            alert('Vui lòng nhập từ khóa');
-            return false;
-        }
-    });
-});
-</script>
 <div class="row">
 
     <div class="col-lg-12">
@@ -26,7 +15,7 @@ $(document).ready(function (e) {
                         <i class="fa fa-home"></i>  <a href="/Admin">Home</a>
                     </li>
                     <li class="active">
-                        <i class="fa fa-list"></i> Danh sách tin tức
+                        <i class="fa fa-list"></i> Kiểm duyệt tin tức
                     </li>
                 </ul>
             </h3>
@@ -62,7 +51,7 @@ $(document).ready(function (e) {
     function CheckAllEmp(Checkbox) {
         var grvBaiviet = document.getElementById("<%=grvBaiviet.ClientID %>");
         for (i = 1; i < grvBaiviet.rows.length; i++) {
-            grvBaiviet.rows[i].cells[8].getElementsByTagName("INPUT")[0].checked = Checkbox.checked;
+            grvBaiviet.rows[i].cells[7].getElementsByTagName("INPUT")[0].checked = Checkbox.checked;
         }
     }
 </script>
@@ -83,13 +72,6 @@ $(document).ready(function (e) {
                     <asp:BoundField DataField="moTa" HeaderText="Mô tả" />
                     <asp:BoundField DataField="ngayTao" HeaderText="Ngày đăng" />
                     <asp:BoundField DataField="luotXem" HeaderText="Lượt xem" />
-                    <asp:TemplateField HeaderText="Trạng thái" ItemStyle-Width="100">
-                        <ItemTemplate>
-                        <asp:Label Text='<%# Eval("trangThai").ToString() == "1" ? "Hiển thị" : "Không hiển thị" %>'
-                        runat="server" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-
                     <asp:TemplateField >
                         <HeaderTemplate>
                             <asp:CheckBox ID="chkboxSelectAll" runat="server" onClick="CheckAllEmp(this);" />
@@ -99,14 +81,21 @@ $(document).ready(function (e) {
                         </ItemTemplate>
                     </asp:TemplateField>
 
-                    <asp:HyperLinkField  ControlStyle-CssClass="btn btn-warning"
-                        DataNavigateUrlFields="id" 
-                        DataNavigateUrlFormatString="SuaTin.aspx?id={0}"
-                        Text="<i class='glyphicon glyphicon-pencil'></i> Sửa" 
-                        HeaderText="Sửa"
-                        >
+                    <asp:TemplateField HeaderText="Duyệt">
+                        <ItemTemplate>
+                            <asp:LinkButton CssClass="btn btn-warning"
+                                OnClientClick="return confirm('Bạn có chắc chắn muốn duyệt bài viết?');"
+                                ID="btnDuyet" 
+                                runat="server"  
+                                CommandName="Duyet"
+                                OnCommand="Duyet"
+                                CommandArgument='<%# Eval("id") %>' 
+                            ><i class='glyphicon glyphicon-ok'></i> Duyệt
+                            </asp:LinkButton>
+                        </ItemTemplate>
+                        
+                    </asp:TemplateField>
 
-                    </asp:HyperLinkField>
 
                     <asp:TemplateField HeaderText="Xóa">
                         <ItemTemplate>
@@ -133,4 +122,5 @@ $(document).ready(function (e) {
     </div>
 </div>  
 </asp:Content>
+
 

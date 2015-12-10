@@ -14,7 +14,7 @@ public partial class Admin_MasterPage : System.Web.UI.MasterPage
         else
         {
             NguoiDung nd = (NguoiDung)Session["login"];
-            lblTenND.Text = nd.hoTen;
+            lblTenND.Text = nd.tenDN;
         }
     }
 }

@@ -61,6 +61,13 @@
                             <li>
                                 <a href="ThemTin.aspx"><i class="fa fa-fw fa-plus-circle"></i> Thêm mới tin tức</a>
                             </li>
+                            <%NguoiDung nd = (NguoiDung)Session["login"];
+                              if (nd.quyen == 1)
+                            { %>
+                            <li>
+                                <a href="KiemDuyet.aspx"><i class="fa fa-fw fa-newspaper-o"></i> Kiểm duyệt tin tức</a>
+                            </li>
+                            <%} %>
                             <li>
                                 <a href="TinTuc.aspx"><i class="fa fa-fw fa-list"></i> Danh sách tin tức</a>
                             </li>

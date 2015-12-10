@@ -13,7 +13,14 @@ public class DataAccess
     public SqlConnection con = new SqlConnection("data source=MINHDINH;initial catalog=tintuc;user id=sa;password=123456");
     public DataTable GetAllBaiViet()
     {
-        SqlDataAdapter ad = new SqlDataAdapter("SELECT tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id ORDER BY tblBaiViet.id DESC", con);
+        SqlDataAdapter ad = new SqlDataAdapter("SELECT tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1 ORDER BY tblBaiViet.id DESC", con);
+        DataTable dt = new DataTable();
+        ad.Fill(dt);
+        return dt;
+    }
+    public DataTable GetAllBaiVietDuyet()
+    {
+        SqlDataAdapter ad = new SqlDataAdapter("SELECT tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id AND tblBaiViet.phanLoai = 0 ORDER BY tblBaiViet.id DESC", con);
         DataTable dt = new DataTable();
         ad.Fill(dt);
         return dt;
@@ -28,17 +35,47 @@ public class DataAccess
 		                                                    ROW_NUMBER() OVER (ORDER BY tblBaiViet.id DESC) as offset 
 		                                                    FROM tblBaiViet, tblChuyenMuc 
 		                                                    WHERE tblBaiViet.id_CM = tblChuyenMuc.id 
+                                                             AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1
 	                                                    )   ROW 
                                                     WHERE offset >=" + offset + 1
 
         , con);
+
         DataTable dt = new DataTable();
         ad.Fill(dt);
         return dt;
     }
     public DataTable GetBaiVietTheoChuyenMuc(int id_cm)
     {
-        SqlDataAdapter ad = new SqlDataAdapter("SELECT tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id AND id_cm=" + id_cm + " ORDER BY tblBaiViet.id DESC", con);
+        SqlDataAdapter ad = new SqlDataAdapter(@"SELECT tblBaiViet.*, 
+                                                        tenCM FROM tblBaiViet, 
+                                                        tblChuyenMuc 
+                                                        WHERE tblBaiViet.id_CM = tblChuyenMuc.id  
+                                                        AND tblBaiViet.phanLoai = 1 
+                                                        AND tblBaiViet.trangThai = 1 
+                                                        AND id_cm= @id_cm   ORDER BY tblBaiViet.id DESC", con);
+        ad.SelectCommand.Parameters.Add(new SqlParameter
+        {
+            ParameterName = "@id_cm",
+            Value = id_cm,
+            SqlDbType = SqlDbType.Int,
+        });
+        DataTable dt = new DataTable();
+        ad.Fill(dt);
+        return dt;
+    }
+    public DataTable GetBaiVietTheoTacGia(int id)
+    {
+        SqlDataAdapter ad = new SqlDataAdapter(@"SELECT tblBaiViet.*, tenDN FROM tblBaiViet, 
+                                                tblNguoiDung WHERE tblBaiViet.id_ND = tblNguoiDung.id  
+                                                AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1 
+                                                AND id_ND= @id  ORDER BY tblBaiViet.id DESC",con);
+        ad.SelectCommand.Parameters.Add(new SqlParameter
+        {
+            ParameterName = "@id",
+            Value = id,
+            SqlDbType = SqlDbType.Int,
+        });
         DataTable dt = new DataTable();
         ad.Fill(dt);
         return dt;
@@ -53,6 +90,7 @@ public class DataAccess
 		                                                    ROW_NUMBER() OVER (ORDER BY tblBaiViet.id DESC) as offset 
 		                                                    FROM tblBaiViet, tblChuyenMuc 
 		                                                    WHERE tblBaiViet.id_CM = tblChuyenMuc.id 
+                                                             AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1
                                                             AND id_cm=" + id_cm + @"
 	                                                    )   ROW 
                                                     WHERE offset >=" + offset + 1
@@ -63,7 +101,13 @@ public class DataAccess
     }
     public DataTable SearchBaiViet(string tukhoa)
     {
-        SqlDataAdapter ad = new SqlDataAdapter("SELECT tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id AND tieuDe like '%"+tukhoa+"%'", con);
+        SqlDataAdapter ad = new SqlDataAdapter("SELECT tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id  AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1 AND tieuDe like '%@tukhoa%'", con);
+        ad.SelectCommand.Parameters.Add(new SqlParameter
+        {
+            ParameterName = "@tukhoa",
+            Value = tukhoa,
+            SqlDbType = SqlDbType.NText,
+        });
         DataTable dt = new DataTable();
         ad.Fill(dt);
         return dt;
@@ -76,8 +120,15 @@ public class DataAccess
         cmd.ExecuteNonQuery();
         con.Close();
     }
-
-    
+    //duyet bai viet
+    public void DuyetBaiViet(int id)
+    {
+        con.Open();
+        SqlCommand cmd = new SqlCommand("UPDATE  tblBaiViet SET phanLoai=1 WHERE id = @id", con);
+        cmd.Parameters.AddWithValue("@id", id);
+        cmd.ExecuteNonQuery();
+        con.Close();
+    }
     public BaiViet GetABaiViet(int id)
     {
         con.Open();
@@ -87,7 +138,9 @@ public class DataAccess
                             ON  tblBaiViet.id_CM = tblChuyenMuc.id 
                             INNER JOIN tblNguoiDung 
                             ON tblNguoiDung.id = tblBaiViet.id_ND
-                            WHERE tblBaiViet.id = @id";
+                            WHERE tblBaiViet.id = @id
+                            AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1
+                            ";
         cmd.Connection = con;
         cmd.Parameters.AddWithValue("@id", id);
         SqlDataReader rd = cmd.ExecuteReader();
@@ -107,6 +160,10 @@ public class DataAccess
             bv.trangThai = Convert.ToInt32(rd["trangThai"]);
             bv.luotXem = Convert.ToInt32(rd["luotXem"]);
 
+        }
+        else
+        {
+            bv = null;
         }
         con.Close();
         return bv;
@@ -163,6 +220,22 @@ public class DataAccess
         return tenCM;
       
     }
+    public string GetTenTacGia(int id)
+    {
+        con.Open();
+        SqlCommand cmd = new SqlCommand("SELECT tenDN FROM tblNguoiDung WHERE id = @id", con);
+        cmd.Parameters.AddWithValue("@id", id);
+        SqlDataReader rd = cmd.ExecuteReader();
+        string tenDN = "";
+        if (rd.Read())
+        {
+            tenDN = Convert.ToString(rd["tenDN"]);
+
+        }
+        con.Close();
+        return tenDN;
+
+    }
     public void ThemChuyenMuc(ChuyenMuc cm)
     {
         string sql = "INSERT INTO tblChuyenMuc(tenCM, moTa, tuKhoa,idCha) VALUES (@tenCM, @moTa, @tuKhoa,@idCha)";
@@ -205,7 +278,7 @@ public class DataAccess
     //----
     public void ThemBaiViet(BaiViet bv)
     {
-        string sql = "INSERT INTO tblBaiViet(id_cm, id_nd, tieuDe,noiDung, moTa, tuKhoa,hinhAnh,ngayTao) VALUES(@id_cm, @id_nd, @tieuDe,@noiDung, @moTa, @tuKhoa,@hinhAnh,@ngayTao)";
+        string sql = "INSERT INTO tblBaiViet(id_cm, id_nd, tieuDe,noiDung, moTa, tuKhoa,hinhAnh,ngayTao,phanLoai,trangThai) VALUES(@id_cm, @id_nd, @tieuDe,@noiDung, @moTa, @tuKhoa,@hinhAnh,@ngayTao,@phanLoai,@trangThai)";
         con.Open();
         SqlCommand cmd = new SqlCommand(sql,con);
         cmd.Parameters.AddWithValue("@id_cm", bv.id_cm);
@@ -218,6 +291,8 @@ public class DataAccess
         cmd.Parameters.AddWithValue("@tuKhoa", bv.tuKhoa);
         cmd.Parameters.AddWithValue("@hinhAnh", bv.hinhAnh);
         cmd.Parameters.AddWithValue("@ngayTao", bv.ngayTao);
+        cmd.Parameters.AddWithValue("@phanLoai", bv.phanLoai);
+        cmd.Parameters.AddWithValue("@trangThai", bv.trangThai);
         cmd.ExecuteNonQuery();
         con.Close();
     }
@@ -549,11 +624,13 @@ public class DataAccess
     }
     public void ThemLienHe(PhanHoi ph)
     {
-        string sql = "INSERT INTO tblPhanHoi(id_TV, noiDung,ngayGui) VALUES(@id_TV, @noiDung,@ngayGui)";
+        string sql = "INSERT INTO tblPhanHoi(id_TV, tieuDe , noiDung,ngayGui) VALUES(@id_TV,@tieuDe, @noiDung,@ngayGui)";
         con.Open();
         SqlCommand cmd = new SqlCommand(sql, con);
         cmd.Parameters.AddWithValue("@id_TV", ph.id_TV);
         cmd.Parameters.AddWithValue("@ngayGui", ph.ngayGui);
+        cmd.Parameters.Add("@tieuDe", SqlDbType.NText);
+        cmd.Parameters["@tieuDe"].Value = ph.tieuDe;
         cmd.Parameters.Add("@noiDung", SqlDbType.NText);
         cmd.Parameters["@noiDung"].Value = ph.noiDung;
         cmd.ExecuteNonQuery();
@@ -610,6 +687,53 @@ public class DataAccess
         }
         con.Close();
         return ch;
+    }
+    //tong quan
+    public int SoLienHe()
+    {
+        con.Open();
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandText = "SELECT COUNT(*) AS Max From tblPhanHoi";
+        cmd.Connection = con;
+        SqlDataReader rd = cmd.ExecuteReader();
+        int lh=0;
+        if (rd.Read())
+        {
+            lh = Convert.ToInt32(rd["Max"]);
+        }
+        con.Close();
+        return lh;
+    }
+
+    public int SoBinhLuan()
+    {
+        con.Open();
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandText = "SELECT COUNT(*) AS Max From tblBinhLuan";
+        cmd.Connection = con;
+        SqlDataReader rd = cmd.ExecuteReader();
+        int lh = 0;
+        if (rd.Read())
+        {
+            lh = Convert.ToInt32(rd["Max"]);
+        }
+        con.Close();
+        return lh;
+    }
+    public int SoThanhVien()
+    {
+        con.Open();
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandText = "SELECT COUNT(*) AS Max From tblThanhVien";
+        cmd.Connection = con;
+        SqlDataReader rd = cmd.ExecuteReader();
+        int lh = 0;
+        if (rd.Read())
+        {
+            lh = Convert.ToInt32(rd["Max"]);
+        }
+        con.Close();
+        return lh;
     }
 	public DataAccess()
 	{

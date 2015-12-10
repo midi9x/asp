@@ -30,7 +30,7 @@
                         <asp:TextBox CssClass="tftextinput" ID="txtTuKhoa" runat="server" placeholder="Nhập từ khóa cần tìm ..."></asp:TextBox>
                         <asp:Button CssClass="tfbutton" ID="btnTim" OnClientClick="return checksearch()" runat="server" Text="Tìm" OnClick="btnTim_Click" />
                     <div class="btn-res login-form" style="float:left; padding-top: 2px;">
-                         <a href="LienHe.aspx">Trang chủ</a> |  <a href="#">Giới thiệu</a> | <a href="LienHe.aspx">Liên hệ</a>
+                         <a href="/">Trang chủ</a> |  <a href="#">Giới thiệu</a> | <a href="LienHe.aspx">Liên hệ</a>
                      </div>
                     <div class="btn-res login-form" style="float:left; padding-top: 2px;padding-left: 200px;">
                         <%
@@ -54,7 +54,7 @@
 					<div class="responsiveSelectContainer">
 						<ul class="nav-menu">
 							<li>
-								<a>Tin tức trong ngày</a>
+								<a>Tin tức 24h</a>
 							</li>
                            
 							<li>

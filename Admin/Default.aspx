@@ -7,14 +7,14 @@
 <div class="row">
     <div class="col-lg-12">
         <h3>
-            <ol class="breadcrumb">
+            <ul class="breadcrumb">
                 <li>
                     <i class="fa fa-home"></i>  <a href="/Admin">Home</a>
                 </li>
                 <li class="active">
                     <i class="fa fa-dashboard"></i> Tổng quan
                 </li>
-            </ol>
+            </ul>
         </h3>
     </div>
 </div>
@@ -44,7 +44,7 @@
                         <div class="huge">
                             <asp:Label ID="lblLienHe" runat="server" Text=""></asp:Label>
                         </div>
-                        <div>Liên hệ mới!</div>
+                        <div>Liên hệ!</div>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge"><asp:Label ID="lblBinhluan" runat="server" Text=""></asp:Label></div>
-                        <div>Bình luận mới!</div>
+                        <div>Bình luận!</div>
                     </div>
                 </div>
             </div>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge"><asp:Label ID="lblThanhvien" runat="server" Text=""></asp:Label></div>
-                        <div>Thành viên mới</div>
+                        <div>Thành viên!</div>
                     </div>
                 </div>
             </div>

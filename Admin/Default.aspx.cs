@@ -13,10 +13,10 @@ public partial class Admin_Default : System.Web.UI.Page
         Page.Title = "Trang quản trị";
         dtBaiviet.DataSource = data.GetAllBaiVietLimitOffSet(5, 0);
         dtBaiviet.DataBind();
-        dtBinhLuan.DataSource = data.GetAllBinhLuanLimit(4);
+        dtBinhLuan.DataSource = data.GetAllBinhLuanLimit(5);
         dtBinhLuan.DataBind();
-        lblBinhluan.Text = "21";
-        lblLienHe.Text = "42";
-        lblThanhvien.Text = "8";
+        lblBinhluan.Text = data.SoBinhLuan().ToString();
+        lblLienHe.Text = data.SoLienHe().ToString();
+        lblThanhvien.Text = data.SoThanhVien().ToString();
     }
 }

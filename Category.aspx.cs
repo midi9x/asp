@@ -27,7 +27,7 @@ public partial class Category : System.Web.UI.Page
             //cho phép phân trang 
             pagesource.AllowPaging = true;
             //thiết lập kích thước trang 
-            pagesource.PageSize = 2;
+            pagesource.PageSize = 5;
             //xử lý việc nhận số trang khi người dùng kích vào link 
             int pageno = 1;
             try
@@ -71,7 +71,7 @@ public partial class Category : System.Web.UI.Page
             //cho phép phân trang 
             pagesource.AllowPaging = true;
             //thiết lập kích thước trang 
-            pagesource.PageSize = 2;
+            pagesource.PageSize = 5;
             //xử lý việc nhận số trang khi người dùng kích vào link 
             int pageno = 1;
             try

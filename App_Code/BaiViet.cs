@@ -18,10 +18,11 @@ public class BaiViet
     public string hinhAnh { get; set; }
     public DateTime ngayTao { get; set; }
     public int luotXem { get; set; }
+    public int phanLoai { get; set; }
     public int trangThai { get; set; }
     public string tenCM { get; set; }
     public string tenND { get; set; }
-    public BaiViet(int id, int id_cm, int id_nd, string tieuDe, string noiDung, string moTa, string tuKhoa, string hinhAnh, DateTime ngayTao, int luotXem, int trangThai, string tenCM, string tenND)
+    public BaiViet(int id, int id_cm, int id_nd, string tieuDe, string noiDung, string moTa, string tuKhoa, string hinhAnh, DateTime ngayTao, int luotXem,int phanLoai , int trangThai, string tenCM, string tenND)
     {
         this.id = id;
         this.id_cm = id_cm;
@@ -34,6 +35,7 @@ public class BaiViet
         this.ngayTao = ngayTao;
         this.luotXem = luotXem;
         this.trangThai = trangThai;
+        this.phanLoai = phanLoai;
         this.tenCM = tenCM;
         this.tenND = tenND;
     }

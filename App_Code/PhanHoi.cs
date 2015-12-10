@@ -10,9 +10,10 @@ public class PhanHoi
 {
     public int id { get; set; }
     public int id_TV { get; set; }
+    public string tieuDe { get; set; }
     public string noiDung { get; set; }
     public DateTime ngayGui { get; set; }
-    public PhanHoi(int id, int id_TV, string noiDung, DateTime ngayGui)
+    public PhanHoi(int id, int id_TV,string tieuDe , string noiDung, DateTime ngayGui)
     {
         this.id = id;
         this.id_TV = id_TV;

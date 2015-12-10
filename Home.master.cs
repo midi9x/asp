@@ -20,10 +20,6 @@ public partial class Home : System.Web.UI.MasterPage
             dtBaiviet.DataSource = data.GetAllBaiVietLimitOffSet(10, 0);
             dtBaiviet.DataBind();
             //cauhinh
-            CauHinh ch = data.GetCauHinh();
-            Page.Title = ch.tieuDe;
-            Page.MetaDescription = ch.moTa;
-            Page.MetaKeywords = ch.tuKhoa;
         }
     }
     protected void btnTim_Click(object sender, EventArgs e)

@@ -30,7 +30,7 @@
     function CheckAllEmp(Checkbox) {
         var grLienHe = document.getElementById("<%=grLienHe.ClientID %>");
         for (i = 1; i < grLienHe.rows.length; i++) {
-            grLienHe.rows[i].cells[4].getElementsByTagName("INPUT")[0].checked = Checkbox.checked;
+            grLienHe.rows[i].cells[5].getElementsByTagName("INPUT")[0].checked = Checkbox.checked;
         }
     }
 </script>
@@ -41,6 +41,7 @@
                 <Columns>
                     <asp:BoundField DataField="id" HeaderText="#" />
                     <asp:BoundField DataField="tenDN" HeaderText="Thành viên" />
+                    <asp:BoundField DataField="tieuDe" HeaderText="Tiêu đề" />
                    <asp:BoundField DataField="noiDung" HeaderText="Nội dung" />
                     <asp:BoundField DataField="ngayGui" HeaderText="Ngày gửi" />
                     <asp:TemplateField >

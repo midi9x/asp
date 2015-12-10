@@ -25,7 +25,8 @@ public partial class Admin_ThemTin : System.Web.UI.Page
         BaiViet bv = new BaiViet();
         bv.tieuDe = txtTieuDe.Text;
         bv.id_cm=Convert.ToInt16(ddChuyenMuc.Text.ToString());
-        bv.id_nd=2;
+        NguoiDung nd = (NguoiDung)Session["login"];
+        bv.id_nd = nd.id;//id nguoi dung
         bv.noiDung=txtNoiDung.Text;
         bv.moTa=txtMota.Text;
         bv.tuKhoa=txtTuKhoa.Text;      
@@ -35,6 +36,9 @@ public partial class Admin_ThemTin : System.Web.UI.Page
         bv.hinhAnh = "/Upload/" + hinhAnh.FileName;
         //end upload
         bv.ngayTao=Convert.ToDateTime(DateTime.Now.ToString());
+        bv.trangThai = Convert.ToInt32(rdtrangThai.Text);
+        if (nd.quyen == 0) bv.phanLoai = 0;//nếu quyền = 0 thì phân loại = 0 => phải kiểm duyệt
+        else bv.phanLoai = 1;//nếu quyền = 1 thì không phải kiểm duyệt bài viết
         data.ThemBaiViet(bv);
         Response.Redirect("TinTuc.aspx");
     }

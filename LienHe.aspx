@@ -25,18 +25,26 @@
         <%} %>
         <%else { %>
         <table>
+             <tr>
+                <td>Nhập tiêu đề: </td>
+            </tr>
+            <tr>
+                <td>
+                        <asp:TextBox Width="580" ID="txtTieuDe" runat="server"></asp:TextBox>
+                </td>
+            </tr>
             <tr>
                 <td>Nhập nội dung: </td>
             </tr>
             <tr>
                 <td>
-                        <asp:TextBox Width="580" ID="txtNoiDung" TextMode="MultiLine" Rows="6" runat="server"></asp:TextBox>
+                        <asp:TextBox Width="580" ID="txtNoiDung" TextMode="MultiLine" Rows="8" runat="server"></asp:TextBox>
                 </td>
             </tr>
             <tr>
                 <td>
                     <asp:Button CssClass="buttonok" ID="btnCapnhat" runat="server" Text="Gửi" OnClick="btnCapnhat_Click"/>
-                    <input class="buttonreset" type="reset" value="Làm lại" />
+                    <input class="buttonreset" type="reset" onclick="window.location.href='/'" value="Hủy" />
                 </td>
             </tr>
 

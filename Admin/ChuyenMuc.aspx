@@ -32,7 +32,15 @@
     <p style="text-align:center;color:red;"><asp:Label ID="lblmsg" runat="server" Text=""></asp:Label></p>
 <div class="row">
     <div class="col-lg-4">
-        <h2> <span class="action">Thêm</span> Chuyên mục</h2>
+        <h2> <span class="action">
+            <% int id= Convert.ToInt32(Request.QueryString["id"]);
+               if (id > 0)
+            {%>
+                Cập nhật
+            <%} else {%>
+                Thêm
+            <%} %>
+             </span> Chuyên mục</h2>
         <div style="padding-top: 15px;"></div>
             <asp:Label ID="lblId" runat="server" Text=""></asp:Label>
             <div class="form-group">
@@ -85,7 +93,7 @@
     </div>
     <div class="col-sm-5">
     <div style="padding-top: 20px;"></div>
-<button class="btn btn-success" type="button" id="Add"><i class="glyphicon glyphicon-plus"></i> Thêm mới </button> 
+<button onclick="window.location.href='ChuyenMuc.aspx'" class="btn btn-success" type="button" id="Add"><i class="glyphicon glyphicon-plus"></i> Thêm mới </button> 
                     <script>
                         $(document).ready(function (e) {
                             $('#Add').click(function (e) {
