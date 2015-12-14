@@ -29,7 +29,8 @@
                 </div>
             </ItemTemplate>
        </asp:datalist>
-        <asp:Label ID="lblPage" runat="server" />
+        <asp:Label ID="lblPage" runat="server" /><br />
+        <asp:Label ID="lblmsg" runat="server" />
 
     </div>
 </div>

@@ -16,7 +16,7 @@ public partial class Category : System.Web.UI.Page
         if (id > 0)
         {
             lblTencm.Text = data.GetTenChuyenMuc(id);
-            Page.Title = data.GetTenChuyenMuc(id);
+            Page.Title = data.GetTenChuyenMuc(id)+" - Tin tuc online";
             pTable = data.GetBaiVietTheoChuyenMuc(id);
             //phan trang
             //khởi tạo pagedatasource 
@@ -102,6 +102,11 @@ public partial class Category : System.Web.UI.Page
             dataCM.DataSource = pagesource;
         }
         dataCM.DataBind();
+        if (dataCM.Items.Count == 0)
+        {
+            lblPage.CssClass = "none";
+            lblmsg.Text = "Không có bài viết";
+        }
     }
 }
 

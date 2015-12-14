@@ -70,9 +70,9 @@ $(document).ready(function (e) {
 <div class="row">
     <div class="col-lg-12">
         <div class="table-responsive">
-            <asp:GridView DataKeyNames="id" ID="grvBaiviet" runat="server" CssClass="table table-bordered table-hover" AutoGenerateColumns="false" AllowPaging="True" OnPageIndexChanging="grvBaiviet_PageIndexChanging" PageSize="7">
+            <asp:GridView   AllowSorting="True" OnSorting="grvBaiviet_Sorting" DataKeyNames="id" ID="grvBaiviet" runat="server" CssClass="table table-bordered table-hover" AutoGenerateColumns="false" AllowPaging="True" OnPageIndexChanging="grvBaiviet_PageIndexChanging" PageSize="7">
                 <Columns>
-                    <asp:BoundField DataField="id" HeaderText="#" />
+                    <asp:BoundField DataField="id" HeaderText="#" SortExpression="id" />
                     <asp:BoundField DataField="tieuDe" HeaderText="Tiêu đề" />
                     <asp:BoundField DataField="tenCM" HeaderText="Chuyên mục" />
                     <asp:TemplateField HeaderText="Ảnh đại diện">
@@ -82,7 +82,7 @@ $(document).ready(function (e) {
                     </asp:TemplateField>
                     <asp:BoundField DataField="moTa" HeaderText="Mô tả" />
                     <asp:BoundField DataField="ngayTao" HeaderText="Ngày đăng" />
-                    <asp:BoundField DataField="luotXem" HeaderText="Lượt xem" />
+                    <asp:BoundField DataField="luotXem" HeaderText="Lượt xem" SortExpression="luotXem"  />
                     <asp:TemplateField HeaderText="Trạng thái" ItemStyle-Width="100">
                         <ItemTemplate>
                         <asp:Label Text='<%# Eval("trangThai").ToString() == "1" ? "Hiển thị" : "Không hiển thị" %>'

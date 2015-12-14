@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
+using System.Data;
 public partial class Admin_TinTuc : System.Web.UI.Page
 {
     DataAccess data = new DataAccess();
@@ -23,9 +23,31 @@ public partial class Admin_TinTuc : System.Web.UI.Page
     {
         grvBaiviet.DataSource = data.GetAllBaiViet();
         grvBaiviet.DataBind();
+        //viewstate dùng để sắp xếp
+        ViewState["dt"] = data.GetAllBaiViet();
+        ViewState["sort"] = "DESC";
     }
 
-
+    //sắp xếp
+    protected void grvBaiviet_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        DataTable dt1 = (DataTable)ViewState["dt"];
+        if (dt1.Rows.Count > 0)
+        {
+            if (Convert.ToString(ViewState["sort"]) == "Asc")
+            {
+                dt1.DefaultView.Sort = e.SortExpression + " Desc";
+                ViewState["sort"] = "Desc";
+            }
+            else
+            {
+                dt1.DefaultView.Sort = e.SortExpression + " Asc";
+                ViewState["sort"] = "Asc";
+            }
+            grvBaiviet.DataSource = dt1;
+            grvBaiviet.DataBind();
+        }
+    }
     protected void Xoa(object sender, CommandEventArgs e)
     {
         try

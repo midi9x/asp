@@ -12,7 +12,8 @@ public partial class Home : System.Web.UI.MasterPage
     {
         if(!IsPostBack)
         {
-            dataXemnhieu.DataSource = data.GetAllBaiVietLimitOffSet(3, 0);
+            menu.Text = data.loadmenu(0, 0);
+            dataXemnhieu.DataSource = data.BaiVietXemNhieu();
             dataXemnhieu.DataBind();
             dataTin.DataSource=data.GetAllBaiVietLimitOffSet(2,0);
             dataTin.DataBind();

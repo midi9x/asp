@@ -30,7 +30,8 @@
             </span>
             Đăng bởi: <a class="user" href="Author.aspx?id=<%=tdnd %>"><asp:Label runat="server" ID="lbltenND"></asp:Label> </a> | 
             <asp:Label runat="server" ID="lblNgaydang"></asp:Label> | 
-            <a class="user" href="Category.aspx?id=<%=idcm %>"><asp:Label runat="server" ID="lblCM"></asp:Label></a> |  
+            <a class="user" href="Category.aspx?id=<%=idcm %>"><asp:Label runat="server" ID="lblCM"></asp:Label></a> |
+            
             <i style="color:#b5b5b5"> <asp:Label runat="server" ID="lblXem"></asp:Label> Lượt xem</i>
 
         </span>
@@ -48,8 +49,8 @@
             <%} %>
         </div>
 
-        <div class="comment cmfb">
-            <a name="name="binhluan"></a>
+        <div class="comment cmfb" > 
+            <a name="binhluan"></a>
             <p>Bình luận</p>
             <%
             if(Session["thanhvien"]==null)

@@ -50,26 +50,9 @@
 			</div>
 			<div class="wrapper-header">
 				<div class="header">
-					<a id="logo" href="./">Logo</a>
-					<div class="responsiveSelectContainer">
-						<ul class="nav-menu">
-							<li>
-								<a>Tin tức 24h</a>
-							</li>
-                           
-							<li>
-								<a>Thể thao</a>
-							</li>
-							<li>
-								<a>Sức khỏe</a>
-							</li>
-							<li>
-								<a>Xã hội </a>
-							</li>
-                             <li>
-								<a>Thế giới</a>
-							</li>
-						</ul>
+					<a id="logo" href="/">Logo</a>
+                	<div class="responsiveSelectContainer">
+                            <asp:Label ID="menu" runat="server" Text=""></asp:Label>
 					</div>        
 				</div>
 			</div>
@@ -139,7 +122,7 @@
 				        <div class="radio-hot">
 					        <h1>TIN TỨC XEM NHIỀU </h1>
 					        <ul>
-                                <asp:datalist id="dataXemnhieu"   runat="server" RepeatLayout="Flow">
+                                <asp:datalist id="dataXemnhieu"  RepeatColumns="5"   runat="server" RepeatLayout="Flow">
                                     <ItemTemplate>
 						                <li class="clearfix">
 							                <a title="<%# Eval("tieuDe")%>" href="Post.aspx?id=<%# Eval("id")%>">

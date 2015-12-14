@@ -18,6 +18,13 @@ public class DataAccess
         ad.Fill(dt);
         return dt;
     }
+    public DataTable BaiVietXemNhieu()
+    {
+        SqlDataAdapter ad = new SqlDataAdapter("SELECT TOP 4 tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1 ORDER BY tblBaiViet.luotXem DESC", con);
+        DataTable dt = new DataTable();
+        ad.Fill(dt);
+        return dt;
+    }
     public DataTable GetAllBaiVietDuyet()
     {
         SqlDataAdapter ad = new SqlDataAdapter("SELECT tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id AND tblBaiViet.phanLoai = 0 ORDER BY tblBaiViet.id DESC", con);
@@ -101,7 +108,7 @@ public class DataAccess
     }
     public DataTable SearchBaiViet(string tukhoa)
     {
-        SqlDataAdapter ad = new SqlDataAdapter("SELECT tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id  AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1 AND tieuDe like '%@tukhoa%'", con);
+        SqlDataAdapter ad = new SqlDataAdapter("SELECT tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id  AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1 AND (tieuDe like '% " + tukhoa + "%' OR noiDung like '% " + tukhoa + "%')", con);
         ad.SelectCommand.Parameters.Add(new SqlParameter
         {
             ParameterName = "@tukhoa",
@@ -735,6 +742,27 @@ public class DataAccess
         con.Close();
         return lh;
     }
+    //menu chuyen muc
+    public string loadmenu(int idCha, int level)
+    {
+        string result = "";
+        SqlConnection conn = new SqlConnection("data source=MINHDINH;initial catalog=tintuc;user id=sa;password=123456");
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblChuyenMuc WHERE idCha = " + idCha, conn);
+        conn.Open();
+        SqlDataReader rd = cmd.ExecuteReader();
+        if (level == 0) result = "<ul class='nav-menu'>";
+        else result = "<ul class='sub-menu'>";
+        while (rd.Read())
+        {
+            result += "<li><a href=Category.aspx?id=" + rd["id"] + ">" + rd["tenCM"] + "</a>";
+            result += loadmenu(Convert.ToInt32(rd["id"]), level + 1);
+        }
+        result += "</li></ul>";
+        conn.Close();
+        return result;
+    }
+
+
 	public DataAccess()
 	{
 		//
