@@ -18,13 +18,15 @@ public class DataAccess
         ad.Fill(dt);
         return dt;
     }
+    // get tất cả các cột ở bảng tblBaiViet va tên chuyên mục của bài viết, sắp xếp theo chiều giảm dần của lượt xem bài viết
     public DataTable BaiVietXemNhieu()
     {
-        SqlDataAdapter ad = new SqlDataAdapter("SELECT TOP 4 tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1 ORDER BY tblBaiViet.luotXem DESC", con);
+        SqlDataAdapter ad = new SqlDataAdapter("SELECT TOP 5 tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1 ORDER BY tblBaiViet.luotXem DESC", con);
         DataTable dt = new DataTable();
         ad.Fill(dt);
         return dt;
     }
+    //get bài viết cần kiểm duyệt có phanLoai=0
     public DataTable GetAllBaiVietDuyet()
     {
         SqlDataAdapter ad = new SqlDataAdapter("SELECT tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id AND tblBaiViet.phanLoai = 0 ORDER BY tblBaiViet.id DESC", con);
@@ -32,9 +34,10 @@ public class DataAccess
         ad.Fill(dt);
         return dt;
     }
-    public DataTable GetAllBaiVietLimitOffSet(int limit,int offset)
+    //get  limit bài viết,  offset
+    public DataTable GetAllBaiVietLimitOffSet(int limit, int offset)
     {
-        SqlDataAdapter ad = new SqlDataAdapter(@"   SELECT TOP "+limit+ @" * 
+        SqlDataAdapter ad = new SqlDataAdapter(@"   SELECT TOP " + limit + @" * 
                                                     FROM(
 		                                                    SELECT 
 		                                                    tblBaiViet.*, 
@@ -52,6 +55,7 @@ public class DataAccess
         ad.Fill(dt);
         return dt;
     }
+    //get bài viết theo id chuyên mục
     public DataTable GetBaiVietTheoChuyenMuc(int id_cm)
     {
         SqlDataAdapter ad = new SqlDataAdapter(@"SELECT tblBaiViet.*, 
@@ -61,22 +65,24 @@ public class DataAccess
                                                         AND tblBaiViet.phanLoai = 1 
                                                         AND tblBaiViet.trangThai = 1 
                                                         AND id_cm= @id_cm   ORDER BY tblBaiViet.id DESC", con);
+        //sử dụng parameter cho SqlDataAdapter
         ad.SelectCommand.Parameters.Add(new SqlParameter
         {
-            ParameterName = "@id_cm",
-            Value = id_cm,
-            SqlDbType = SqlDbType.Int,
+            ParameterName = "@id_cm",//tên parameter trong cau lenh
+            Value = id_cm,//giá trị truyền vài
+            SqlDbType = SqlDbType.Int,//kieu du lieu
         });
         DataTable dt = new DataTable();
         ad.Fill(dt);
         return dt;
     }
+    //get bai viet theo id tac gia
     public DataTable GetBaiVietTheoTacGia(int id)
     {
         SqlDataAdapter ad = new SqlDataAdapter(@"SELECT tblBaiViet.*, tenDN FROM tblBaiViet, 
                                                 tblNguoiDung WHERE tblBaiViet.id_ND = tblNguoiDung.id  
                                                 AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1 
-                                                AND id_ND= @id  ORDER BY tblBaiViet.id DESC",con);
+                                                AND id_ND= @id  ORDER BY tblBaiViet.id DESC", con);
         ad.SelectCommand.Parameters.Add(new SqlParameter
         {
             ParameterName = "@id",
@@ -87,7 +93,8 @@ public class DataAccess
         ad.Fill(dt);
         return dt;
     }
-    public DataTable GetBaiVietTheoChuyenMucLimitOffset(int id_cm, int limit,int offset)
+    //get bài viết theo chuyên mục, có limit, offset
+    public DataTable GetBaiVietTheoChuyenMucLimitOffset(int id_cm, int limit, int offset)
     {
         SqlDataAdapter ad = new SqlDataAdapter(@"   SELECT TOP " + limit + @" * 
                                                     FROM(
@@ -101,11 +108,12 @@ public class DataAccess
                                                             AND id_cm=" + id_cm + @"
 	                                                    )   ROW 
                                                     WHERE offset >=" + offset + 1
-        , con); 
+        , con);
         DataTable dt = new DataTable();
         ad.Fill(dt);
         return dt;
     }
+    //tìm kiếm bài viet theo tu khóa
     public DataTable SearchBaiViet(string tukhoa)
     {
         SqlDataAdapter ad = new SqlDataAdapter("SELECT tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id  AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1 AND (tieuDe like '% " + tukhoa + "%' OR noiDung like '% " + tukhoa + "%')", con);
@@ -119,6 +127,7 @@ public class DataAccess
         ad.Fill(dt);
         return dt;
     }
+    //xoa bai viet theo id bai viet
     public void XoaBaiViet(int id)
     {
         con.Open();
@@ -127,7 +136,7 @@ public class DataAccess
         cmd.ExecuteNonQuery();
         con.Close();
     }
-    //duyet bai viet
+    //duyet bai viet theo id => update phânLoai = 1
     public void DuyetBaiViet(int id)
     {
         con.Open();
@@ -136,6 +145,7 @@ public class DataAccess
         cmd.ExecuteNonQuery();
         con.Close();
     }
+    //get 1 bài viết theo id
     public BaiViet GetABaiViet(int id)
     {
         con.Open();
@@ -160,8 +170,8 @@ public class DataAccess
             //bv.tenCM = Convert.ToString(rd["tenCM"]);
             bv.tieuDe = Convert.ToString(rd["tieuDe"]);
             bv.noiDung = Convert.ToString(rd["noiDung"]);
-            bv.moTa = Convert.ToString(rd["moTa"]);;
-            bv.tuKhoa  = Convert.ToString(rd["tuKhoa"]);
+            bv.moTa = Convert.ToString(rd["moTa"]); ;
+            bv.tuKhoa = Convert.ToString(rd["tuKhoa"]);
             bv.hinhAnh = Convert.ToString(rd["hinhAnh"]);
             bv.ngayTao = Convert.ToDateTime(rd["ngayTao"]);
             bv.trangThai = Convert.ToInt32(rd["trangThai"]);
@@ -175,7 +185,7 @@ public class DataAccess
         con.Close();
         return bv;
     }
-    //chuyen muc
+    //get 1 chuyen muc 
     public ChuyenMuc GetAChuyenMuc(int id)
     {
         con.Open();
@@ -196,6 +206,7 @@ public class DataAccess
         con.Close();
         return cm;
     }
+    //xoa chuyen muc
     public void XoaChuyenMuc(int id)
     {
         con.Open();
@@ -204,6 +215,7 @@ public class DataAccess
         cmd.ExecuteNonQuery();
         con.Close();
     }
+    ////get tat ca chuyen muc. sap xep giam dan  theo id chuyen muc
     public DataTable GetAllChuyenMuc()
     {
         SqlDataAdapter ad = new SqlDataAdapter("SELECT * FROM tblChuyenMuc order by id DESC", con);
@@ -211,6 +223,7 @@ public class DataAccess
         ad.Fill(dt);
         return dt;
     }
+    //get ten chuyen mục  theo id chuyên mục
     public string GetTenChuyenMuc(int id)
     {
         con.Open();
@@ -225,8 +238,9 @@ public class DataAccess
         }
         con.Close();
         return tenCM;
-      
+
     }
+    //get tên Người dùng (tác giả) theo id người dùng
     public string GetTenTacGia(int id)
     {
         con.Open();
@@ -243,13 +257,14 @@ public class DataAccess
         return tenDN;
 
     }
+    // them chuyen muc
     public void ThemChuyenMuc(ChuyenMuc cm)
     {
         string sql = "INSERT INTO tblChuyenMuc(tenCM, moTa, tuKhoa,idCha) VALUES (@tenCM, @moTa, @tuKhoa,@idCha)";
         con.Open();
         SqlCommand cmd = new SqlCommand(sql, con);
         cmd.Parameters.AddWithValue("@idCha", cm.idCha);
-
+        //Parameters với dữ liệu tiếng việt => SqlDbType.NText
         cmd.Parameters.Add("@tenCM", SqlDbType.NText);
         cmd.Parameters["@tenCM"].Value = cm.tenCM;
 
@@ -262,9 +277,10 @@ public class DataAccess
         cmd.ExecuteNonQuery();
         con.Close();
     }
+    //sua chuyen muc
     public void SuaChuyenMuc(ChuyenMuc cm)
     {
-        string sql = "Update tblChuyenMuc set tenCM=@tenCM, moTa=@moTa, tuKhoa=@tuKhoa,idCha=@idCha WHERE id=@id" ;
+        string sql = "Update tblChuyenMuc set tenCM=@tenCM, moTa=@moTa, tuKhoa=@tuKhoa,idCha=@idCha WHERE id=@id";
         con.Open();
         SqlCommand cmd = new SqlCommand(sql, con);
         cmd.Parameters.AddWithValue("@id", cm.id);
@@ -282,16 +298,16 @@ public class DataAccess
         cmd.ExecuteNonQuery();
         con.Close();
     }
-    //----
+    //them bai viết
     public void ThemBaiViet(BaiViet bv)
     {
         string sql = "INSERT INTO tblBaiViet(id_cm, id_nd, tieuDe,noiDung, moTa, tuKhoa,hinhAnh,ngayTao,phanLoai,trangThai) VALUES(@id_cm, @id_nd, @tieuDe,@noiDung, @moTa, @tuKhoa,@hinhAnh,@ngayTao,@phanLoai,@trangThai)";
         con.Open();
-        SqlCommand cmd = new SqlCommand(sql,con);
+        SqlCommand cmd = new SqlCommand(sql, con);
         cmd.Parameters.AddWithValue("@id_cm", bv.id_cm);
         cmd.Parameters.AddWithValue("@id_nd", bv.id_nd);
 
-        cmd.Parameters.Add("@tieuDe",SqlDbType.NText);
+        cmd.Parameters.Add("@tieuDe", SqlDbType.NText);
         cmd.Parameters["@tieuDe"].Value = bv.tieuDe;
         cmd.Parameters.AddWithValue("@noiDung", bv.noiDung);
         cmd.Parameters.AddWithValue("@moTa", bv.moTa);
@@ -303,6 +319,7 @@ public class DataAccess
         cmd.ExecuteNonQuery();
         con.Close();
     }
+    //sua bài viết
     public void SuaBaiViet(BaiViet bv)
     {
         string sql = @"UPDATE tblBaiViet  set   id_cm=@id_cm, 
@@ -338,12 +355,13 @@ public class DataAccess
         cmd.ExecuteNonQuery();
         con.Close();
     }
+    //cập nhật lượt xem bài viết theo id bài viết
     public void LuotXemBV(int id)
     {
         con.Open();
         string sql = "UPDATE tblBaiViet set luotXem = luotXem + 1 WHERE id=@id";
         SqlCommand cmd = new SqlCommand(sql, con);
-        cmd.Parameters.AddWithValue("@id",id);
+        cmd.Parameters.AddWithValue("@id", id);
         cmd.ExecuteNonQuery();
         con.Close();
     }
@@ -526,6 +544,7 @@ public class DataAccess
         cmd.ExecuteNonQuery();
         con.Close();
     }
+    //đổi mật khẩu thành viên
     public void DoiMkThanhVien(ThanhVien tv)
     {
         string sql = @"UPDATE tblThanhVien  set matKhau = @matKhau WHERE id=@id";
@@ -566,9 +585,10 @@ public class DataAccess
         ad.Fill(dt);
         return dt;
     }
+    // get bình luận có giới hạn
     public DataTable GetAllBinhLuanLimit(int limit)
     {
-        SqlDataAdapter ad = new SqlDataAdapter(@"SELECT TOP "+limit+ @" tblBinhLuan.*, tieuDe,hoTen,tenDN
+        SqlDataAdapter ad = new SqlDataAdapter(@"SELECT TOP " + limit + @" tblBinhLuan.*, tieuDe,hoTen,tenDN
                                                     FROM tblBaiViet INNER JOIN  tblBinhLuan
                                                     ON  tblBinhLuan.id_BV = tblBaiViet.id
                                                     INNER JOIN tblThanhVien 
@@ -579,6 +599,7 @@ public class DataAccess
         ad.Fill(dt);
         return dt;
     }
+    //get bình luận của bài viết theo id bài viết
     public DataTable GetBinhLuanBV(int id)
     {
         SqlDataAdapter ad = new SqlDataAdapter(@"SELECT tblBinhLuan.*,tieuDe,hoTen,tenDN,anhDaiDien
@@ -586,7 +607,7 @@ public class DataAccess
                                                 ON tblBaiViet.id = tblBinhLuan.id_BV
                                                 INNER JOIN tblThanhVien 
                                                 ON tblBinhLuan.id_TV = tblThanhVien.id
-                                                WHERE tblBaiViet.id= " +id
+                                                WHERE tblBaiViet.id= " + id
         , con);
         DataTable dt = new DataTable();
         ad.Fill(dt);
@@ -604,8 +625,8 @@ public class DataAccess
         cmd.Parameters["@noiDung"].Value = bl.noiDung;
         cmd.ExecuteNonQuery();
         con.Close();
-       
-        
+
+
     }
     public void XoaBinhLuan(int id)
     {
@@ -615,12 +636,12 @@ public class DataAccess
         cmd.Parameters.AddWithValue("@id", id);
         cmd.ExecuteNonQuery();
         con.Close();
-        
+
     }
     // phan hoi
     public DataTable GetAllLienHe()
     {
-        SqlDataAdapter ad = new SqlDataAdapter(@"SELECT tblPhanHoi.*,tenDN
+        SqlDataAdapter ad = new SqlDataAdapter(@"   SELECT tblPhanHoi.*,tenDN
                                                     FROM tblPhanHoi INNER JOIN  tblThanhVien 
                                                     ON tblPhanHoi.id_TV = tblThanhVien.id
                                                     order by id desc
@@ -661,7 +682,7 @@ public class DataAccess
         string sql = @"UPDATE tblCauHinh  set   tieuDe=@tieuDe,
                                                 moTa=@moTa,
                                                 tuKhoa=@tuKhoa, 
-                                                logo=@logo where 1 = 1";
+                                                logo=@logo";
         con.Open();
         SqlCommand cmd = new SqlCommand(sql, con);
         cmd.Parameters.Add("@tieuDe", SqlDbType.NText);
@@ -703,7 +724,7 @@ public class DataAccess
         cmd.CommandText = "SELECT COUNT(*) AS Max From tblPhanHoi";
         cmd.Connection = con;
         SqlDataReader rd = cmd.ExecuteReader();
-        int lh=0;
+        int lh = 0;
         if (rd.Read())
         {
             lh = Convert.ToInt32(rd["Max"]);
@@ -742,6 +763,22 @@ public class DataAccess
         con.Close();
         return lh;
     }
+    public int SoBaiViet()
+    {
+        con.Open();
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandText = "SELECT COUNT(*) AS Max From tblBaiViet";
+        cmd.Connection = con;
+        SqlDataReader rd = cmd.ExecuteReader();
+        int lh = 0;
+        if (rd.Read())
+        {
+            lh = Convert.ToInt32(rd["Max"]);
+        }
+        con.Close();
+        return lh;
+    }
+
     //menu chuyen muc
     public string loadmenu(int idCha, int level)
     {
@@ -761,8 +798,6 @@ public class DataAccess
         conn.Close();
         return result;
     }
-
-
 	public DataAccess()
 	{
 		//

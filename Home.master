@@ -11,6 +11,7 @@
     <script src="Admin/js/jquery.js"></script>
     <script src="Admin/js/jquery-ui.min.js"></script>
     <link href="Admin/css/jquery-ui.min.css" rel="stylesheet" />
+     <link rel="shortcut icon" href="/favicon.ico" />
     <script>
         function checksearch()
         {

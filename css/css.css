@@ -1715,6 +1715,7 @@ div#tabs_container ul li img {margin:7px;}
     list-style: none;
     border-top: 1px #f0f0f0 solid;
     padding: 10px;
+        width: 560px;
     position: relative;
     height: 60px
                           

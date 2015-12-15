@@ -17,6 +17,7 @@
     <!-- thêm font awesome -->
     <link href="/Admin//font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
     <link href="/Admin/css/style.css" rel="stylesheet"/>
+    <link rel="shortcut icon" href="/favicon.ico" />
 </head>
 <body>
     <form id="form1" runat="server" class="form-horizontal" enctype="multipart/form-data">

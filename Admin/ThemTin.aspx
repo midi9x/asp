@@ -44,6 +44,13 @@
     
     </div>
   </div>
+    <script type="text/javascript">
+    $(function () {
+        CKEDITOR.replace('<%=txtNoiDung.ClientID %>',
+        { filebrowserImageUploadUrl: '/Upload.ashx' }); 
+    });
+    </script>
+
 
   <div class="form-group">
     <label for="txtNoiDung" class="col-sm-2 control-label">Nội dung <span class="required">*</span></label>
@@ -52,6 +59,8 @@
         <asp:RequiredFieldValidator CssClass="red" ID="rqNoidung" runat="server" ControlToValidate="txtNoiDung" ErrorMessage="Vui lòng nhập nội dung"></asp:RequiredFieldValidator>
     </div>
   </div>
+
+
 
   <div class="form-group">
     <label for="txtMota" class="col-sm-2 control-label">Mô tả <span class="required">*</span></label>

@@ -33,7 +33,7 @@
 <!-- /.row -->
 
 <div class="row">
-    <div class="col-lg-4 col-md-6">
+    <div class="col-lg-3 ">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="row">
@@ -57,7 +57,7 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-4 col-md-6">
+    <div class="col-lg-3">
         <div class="panel panel-yellow">
             <div class="panel-heading">
                 <div class="row">
@@ -79,7 +79,7 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-4 col-md-6">
+    <div class="col-lg-3">
         <div class="panel panel-red">
             <div class="panel-heading">
                 <div class="row">
@@ -101,6 +101,30 @@
             </a>
         </div>
     </div>
+    <div class="col-lg-3 ">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-file fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">
+                            <asp:Label ID="lblBaiviet" runat="server" Text=""></asp:Label>
+                        </div>
+                        <div>Bài viết!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="TinTuc.aspx" title="lien he">
+                <div class="panel-footer">
+                    <span class="pull-left">Xem chi tiết</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
 </div>
 <!-- /.row -->
 
@@ -108,7 +132,7 @@
     <div class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-file fa-fw"></i> Bài viết gần đây</h3>
+                <h3 class="panel-title"><i class="fa fa-file fa-fw"></i> Bài viết xem nhiều</h3>
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
