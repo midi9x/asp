@@ -34,19 +34,26 @@ public partial class Login : System.Web.UI.Page
     }
     protected void btnDangnhap_Click(object sender, EventArgs e)
     {
-        string tenDN = logintenDN.Text;
-        string matKhau = loginmatKhau.Text;
-        matKhau = GetMD5(matKhau);
-        ThanhVien tv = data.GetAThanhVien(tenDN, matKhau);
-        if (tv == null)
+        try
         {
-            lblmsg.Text = "Sai tên đăng nhập hoặc mật khẩu";
-            lblmsg.CssClass = "alert alert-danger col-sm-12";
+            string tenDN = logintenDN.Text;
+            string matKhau = loginmatKhau.Text;
+            matKhau = GetMD5(matKhau);
+            ThanhVien tv = data.GetAThanhVien(tenDN, matKhau);
+            if (tv == null)
+            {
+                lblmsg.Text = "Sai tên đăng nhập hoặc mật khẩu";
+                lblmsg.CssClass = "alert alert-danger col-sm-12";
+            }
+            else
+            {
+                Session["thanhvien"] = tv;
+                Response.Redirect("/");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Session["thanhvien"] = tv;
-            Response.Redirect("/");
+            Response.Write("<script>alert(" + ex.Message + ");</script>");
         }
     }
     protected void btnDangKy_Click(object sender, EventArgs e)

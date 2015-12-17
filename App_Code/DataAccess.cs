@@ -116,7 +116,7 @@ public class DataAccess
     //tìm kiếm bài viet theo tu khóa
     public DataTable SearchBaiViet(string tukhoa)
     {
-        SqlDataAdapter ad = new SqlDataAdapter("SELECT tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id  AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1 AND (tieuDe like '% " + tukhoa + "%' OR noiDung like '% " + tukhoa + "%')", con);
+        SqlDataAdapter ad = new SqlDataAdapter("SELECT tblBaiViet.*, tenCM FROM tblBaiViet, tblChuyenMuc WHERE tblBaiViet.id_CM = tblChuyenMuc.id  AND tblBaiViet.phanLoai = 1 AND tblBaiViet.trangThai = 1 AND (tieuDe like N'%"+tukhoa+"%' OR noiDung like N'%"+tukhoa+"%' OR tblBaiViet.tuKhoa like N'%"+tukhoa+"%')", con);
         ad.SelectCommand.Parameters.Add(new SqlParameter
         {
             ParameterName = "@tukhoa",

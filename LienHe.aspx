@@ -26,19 +26,21 @@
         <%else { %>
         <table>
              <tr>
-                <td>Nhập tiêu đề: </td>
+                <td>Nhập tiêu đề <span style="color:red;">*</span>: </td>
             </tr>
             <tr>
                 <td>
-                        <asp:TextBox Width="580" ID="txtTieuDe" runat="server"></asp:TextBox>
+                    <asp:TextBox Width="580" ID="txtTieuDe" runat="server"></asp:TextBox>
+                    <asp:RequiredFieldValidator ForeColor="Red" ControlToValidate="txtTieuDe" ID="rq1" runat="server" ErrorMessage="Không được để trống!"></asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
-                <td>Nhập nội dung: </td>
+                <td>Nhập nội dung <span style="color:red;">*</span>: </td>
             </tr>
             <tr>
                 <td>
-                        <asp:TextBox Width="580" ID="txtNoiDung" TextMode="MultiLine" Rows="8" runat="server"></asp:TextBox>
+                    <asp:TextBox Width="580" ID="txtNoiDung" TextMode="MultiLine" Rows="8" runat="server"></asp:TextBox>
+                    <asp:RequiredFieldValidator ForeColor="Red" ControlToValidate="txtNoiDung" ID="rq2" runat="server" ErrorMessage="Không được để trống!"></asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>

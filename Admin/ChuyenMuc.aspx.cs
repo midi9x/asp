@@ -54,29 +54,36 @@ public partial class Admin_ChuyenMuc : System.Web.UI.Page
     }
     protected void btnThem_Click(object sender, EventArgs e)
     {
-        int id = Convert.ToInt32(Request.QueryString["id"]);
-        if (id > 0)
+        try
         {
-            //cap nhat
-            ChuyenMuc cm = new ChuyenMuc();
-            cm.id = id;
-            cm.tenCM = tenCM.Text;
-            cm.moTa = moTa.Text;
-            cm.tuKhoa = tuKhoa.Text;
-            cm.idCha = Convert.ToInt32(ddCha.Text);
-            data.SuaChuyenMuc(cm);
-            Response.Redirect("ChuyenMuc.aspx");
+            int id = Convert.ToInt32(Request.QueryString["id"]);
+            if (id > 0)
+            {
+                //cap nhat
+                ChuyenMuc cm = new ChuyenMuc();
+                cm.id = id;
+                cm.tenCM = tenCM.Text;
+                cm.moTa = moTa.Text;
+                cm.tuKhoa = tuKhoa.Text;
+                cm.idCha = Convert.ToInt32(ddCha.Text);
+                data.SuaChuyenMuc(cm);
+                Response.Redirect("ChuyenMuc.aspx");
+            }
+            else
+            {
+                //them moi
+                ChuyenMuc cm = new ChuyenMuc();
+                cm.tenCM = tenCM.Text;
+                cm.moTa = moTa.Text;
+                cm.tuKhoa = tuKhoa.Text;
+                cm.idCha = Convert.ToInt32(ddCha.Text);
+                data.ThemChuyenMuc(cm);
+                Response.Redirect("ChuyenMuc.aspx");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            //them moi
-            ChuyenMuc cm = new ChuyenMuc();
-            cm.tenCM = tenCM.Text;
-            cm.moTa = moTa.Text;
-            cm.tuKhoa = tuKhoa.Text;
-            cm.idCha = Convert.ToInt32(ddCha.Text);
-            data.ThemChuyenMuc(cm);
-            Response.Redirect("ChuyenMuc.aspx");
+            Response.Write("<script>alert(" + ex.Message + ");</script>");
         }
     }
     protected void grvChuyenMuc_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -86,17 +93,24 @@ public partial class Admin_ChuyenMuc : System.Web.UI.Page
     }
     protected void btnXoaN_Click(object sender, EventArgs e)
     {
-        foreach (GridViewRow row in grvChuyenMuc.Rows)
+        try
         {
-            CheckBox checkbox = (CheckBox)row.FindControl("chkEmp");
-
-            if (checkbox.Checked)
+            foreach (GridViewRow row in grvChuyenMuc.Rows)
             {
-                int id = Convert.ToInt32(grvChuyenMuc.DataKeys[row.RowIndex].Value.ToString());
-                data.XoaChuyenMuc(id);
+                CheckBox checkbox = (CheckBox)row.FindControl("chkEmp");
 
+                if (checkbox.Checked)
+                {
+                    int id = Convert.ToInt32(grvChuyenMuc.DataKeys[row.RowIndex].Value.ToString());
+                    data.XoaChuyenMuc(id);
+
+                }
             }
+            FillData();
         }
-        FillData();
+        catch (Exception ex)
+        {
+            Response.Write("<script>alert("+ex.Message+");</script>");
+        }
     }
 }

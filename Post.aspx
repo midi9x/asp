@@ -44,7 +44,7 @@
         <div class="tags">Từ khóa: 
             <% for(int i=0;i<tukhoa.Length -1;i++)
             {%>
-            <a><%=tukhoa[i] %></a>
+            <a  href="/Search.aspx?tukhoa=<%=tukhoa[i]%>"><%=tukhoa[i] %></a>
 
             <%} %>
         </div>

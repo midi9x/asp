@@ -18,7 +18,7 @@ public partial class Search : System.Web.UI.Page
         {
             lblTuKhoa.Text = "Tìm kiếm: "+ tukhoa;
         }
-        Page.Title = "Tìm kiếm "+ tukhoa;
+        Page.Title = "Tìm kiếm: "+ tukhoa;
         pTable = data.SearchBaiViet(tukhoa);
         if (pTable.Rows.Count == 0)
         {

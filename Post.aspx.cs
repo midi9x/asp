@@ -10,27 +10,32 @@ public partial class Post : System.Web.UI.Page
     DataAccess data = new DataAccess();
     protected void Page_Load(object sender, EventArgs e)
     {
-        BaiViet bv = new BaiViet();
-        //get bài viết theo id
-        int id = Convert.ToInt32(Request.QueryString["id"]);
-        bv = data.GetABaiViet(id);
-        //đổ dữ liệu lên view
-        lblTieude.Text = bv.tieuDe;
-        lblChuyenmuc.Text = data.GetTenChuyenMuc(bv.id_cm);
-        lblCM.Text = data.GetTenChuyenMuc(bv.id_cm);
-        lblNgaydang.Text = bv.ngayTao.ToString();
-        lblXem.Text = bv.luotXem.ToString();
-        lblNoidung.Text = bv.noiDung;
-        lbltenND.Text = bv.tenND;
-        //title, description, keyword meta
-        Page.Title = bv.tieuDe;
-        Page.MetaDescription = bv.moTa;
-        Page.MetaKeywords = bv.tuKhoa;
-        //luot xem
-        data.LuotXemBV(id);
-        dataBinhLuan.DataSource = data.GetBinhLuanBV(id);
-        dataBinhLuan.DataBind();
-        //nếu chưa login
+        try
+        {
+            BaiViet bv = new BaiViet();
+            //get bài viết theo id
+            int id = Convert.ToInt32(Request.QueryString["id"]);
+            bv = data.GetABaiViet(id);
+            //đổ dữ liệu lên view
+            lblTieude.Text = bv.tieuDe;
+            lblChuyenmuc.Text = data.GetTenChuyenMuc(bv.id_cm);
+            lblCM.Text = data.GetTenChuyenMuc(bv.id_cm);
+            lblNgaydang.Text = bv.ngayTao.ToString();
+            lblXem.Text = bv.luotXem.ToString();
+            lblNoidung.Text = bv.noiDung;
+            lbltenND.Text = bv.tenND;
+            //title, description, keyword meta
+            Page.Title = bv.tieuDe;
+            Page.MetaDescription = bv.moTa;
+            Page.MetaKeywords = bv.tuKhoa;
+            //luot xem
+            data.LuotXemBV(id);
+            dataBinhLuan.DataSource = data.GetBinhLuanBV(id);
+            dataBinhLuan.DataBind();
+        }
+        catch {
+            Response.Redirect("/");
+        }
     }
     protected void btnGui_Click(object sender, EventArgs e)
     {

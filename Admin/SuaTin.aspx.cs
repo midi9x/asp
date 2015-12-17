@@ -44,30 +44,36 @@ public partial class Admin_SuaTin : System.Web.UI.Page
     }
     protected void btnThem_Click(object sender, EventArgs e)
     {
-        BaiViet bv = new BaiViet();
-        bv.id=Convert.ToInt32(Request.QueryString["id"]);
-        bv.tieuDe = txtTieuDe.Text;
-        bv.id_cm = Convert.ToInt16(ddChuyenMuc.Text.ToString());
-        bv.id_nd = 2;
-        bv.noiDung = txtNoiDung.Text;
-        bv.moTa = txtMota.Text;
-        bv.tuKhoa = txtTuKhoa.Text;
-        //file upload
-        if (hinhAnh.HasFile)
+        try
         {
-            string path = Server.MapPath("~/Upload/") + hinhAnh.FileName;
-            hinhAnh.PostedFile.SaveAs(path);
-            bv.hinhAnh = "/Upload/" + hinhAnh.FileName;
+            BaiViet bv = new BaiViet();
+            bv.id = Convert.ToInt32(Request.QueryString["id"]);
+            bv.tieuDe = txtTieuDe.Text;
+            bv.id_cm = Convert.ToInt16(ddChuyenMuc.Text.ToString());
+            bv.id_nd = 2;
+            bv.noiDung = txtNoiDung.Text;
+            bv.moTa = txtMota.Text;
+            bv.tuKhoa = txtTuKhoa.Text;
+            //file upload
+            if (hinhAnh.HasFile)
+            {
+                string path = Server.MapPath("~/Upload/") + hinhAnh.FileName;
+                hinhAnh.PostedFile.SaveAs(path);
+                bv.hinhAnh = "/Upload/" + hinhAnh.FileName;
+            }
+            else bv.hinhAnh = oldHinhAnh.ImageUrl;
+            if (rd1.Checked)
+            {
+                bv.trangThai = 1;
+            }
+            else bv.trangThai = 0;
+            //end upload
+            data.SuaBaiViet(bv);
+            Response.Redirect("TinTuc.aspx");
         }
-        else bv.hinhAnh = oldHinhAnh.ImageUrl;
-        if (rd1.Checked)
+        catch (Exception ex)
         {
-            bv.trangThai = 1;
+            Response.Write("<script>alert(" + ex.Message + ");</script>");
         }
-        else bv.trangThai = 0;
-        //end upload
-        data.SuaBaiViet(bv);
-        Response.Redirect("TinTuc.aspx");
-
     }
 }

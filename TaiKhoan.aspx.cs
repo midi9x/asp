@@ -28,53 +28,66 @@ public partial class TaiKhoan : System.Web.UI.Page
 
     protected void btnCapnhat_Click(object sender, EventArgs e)
     {
-        ThanhVien tvo = (ThanhVien)Session["thanhvien"];
-        ThanhVien tv = new ThanhVien();
-        tv.id = tvo.id;
-        tv.tenDN = tvo.tenDN;
-        tv.matKhau = tvo.matKhau;
-        tv.hoTen = txtHoten.Text;
-        tv.email = txtEmail.Text;
-        tv.ngaySinh = Convert.ToDateTime(txtNgaySinh.Text);
-        tv.gioiTinh = Convert.ToInt32(ddGioitinh.Text);
-        tv.diaChi = txtDiachi.Text;
-        if(txtAnh.HasFile)
+        try
         {
-            string path = Server.MapPath("~/Upload/Avatar/") + txtAnh.FileName;
-            txtAnh.PostedFile.SaveAs(path);
-            tv.anhDaiDien = "/Upload/Avatar/" + txtAnh.FileName;
+            ThanhVien tvo = (ThanhVien)Session["thanhvien"];
+            ThanhVien tv = new ThanhVien();
+            tv.id = tvo.id;
+            tv.tenDN = tvo.tenDN;
+            tv.matKhau = tvo.matKhau;
+            tv.hoTen = txtHoten.Text;
+            tv.email = txtEmail.Text;
+            tv.ngaySinh = Convert.ToDateTime(txtNgaySinh.Text);
+            tv.gioiTinh = Convert.ToInt32(ddGioitinh.Text);
+            tv.diaChi = txtDiachi.Text;
+            if(txtAnh.HasFile)
+            {
+                string path = Server.MapPath("~/Upload/Avatar/") + txtAnh.FileName;
+                txtAnh.PostedFile.SaveAs(path);
+                tv.anhDaiDien = "/Upload/Avatar/" + txtAnh.FileName;
+            }
+            else
+            {
+                tv.anhDaiDien = imgAnh.ImageUrl;
+            }
+            data.SuaThanhVien(tv);
+            Session["thanhvien"] = tv;
+            Response.Redirect("TaiKhoan.aspx");
         }
-        else
+        catch (Exception ex)
         {
-            tv.anhDaiDien = imgAnh.ImageUrl;
+            Response.Write("<script>alert(" + ex.Message + ");</script>");
         }
-        data.SuaThanhVien(tv);
-        Session["thanhvien"] = tv;
-        Response.Redirect("TaiKhoan.aspx");
     }
     protected void btnMK_Click(object sender, EventArgs e)
     {
-        ThanhVien tvo = (ThanhVien)Session["thanhvien"];
-        string mkcu = GetMD5(txtmkcu.Text);
-        if (mkcu != tvo.matKhau)
+        try
         {
-            Response.Write("<script>alert('Mật khẩu cũ không chính xác');</script>");
+            ThanhVien tvo = (ThanhVien)Session["thanhvien"];
+            string mkcu = GetMD5(txtmkcu.Text);
+            if (mkcu != tvo.matKhau)
+            {
+                Response.Write("<script>alert('Mật khẩu cũ không chính xác');</script>");
+            }
+            else if( txtmkmoi.Text != txtremkmoi.Text){
+                Response.Write("<script>alert('Mật khẩu không khớp');</script>");
+            }
+            else if(txtmkmoi.Text =="" ||  txtremkmoi.Text=="")
+            {
+                Response.Write("<script>alert('Nhập mk mới');</script>");
+            }
+            else{
+                ThanhVien tv = new ThanhVien();
+                tv.id = tvo.id;
+                tv.matKhau = GetMD5(txtmkmoi.Text);
+                data.DoiMkThanhVien(tv);
+                Response.Redirect("TaiKhoan.aspx");
+            }
         }
-        else if( txtmkmoi.Text != txtremkmoi.Text){
-            Response.Write("<script>alert('Mật khẩu không khớp');</script>");
-        }
-        else if(txtmkmoi.Text =="" ||  txtremkmoi.Text=="")
+        catch (Exception ex)
         {
-            Response.Write("<script>alert('Nhập mk mới');</script>");
+            Response.Write("<script>alert(" + ex.Message + ");</script>");
         }
-        else{
-            ThanhVien tv = new ThanhVien();
-            tv.id = tvo.id;
-            tv.matKhau = GetMD5(txtmkmoi.Text);
-            data.DoiMkThanhVien(tv);
-            Response.Redirect("TaiKhoan.aspx");
-        }
-        
     }
     public static string GetMD5(string str)
     {
